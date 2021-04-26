@@ -57,7 +57,7 @@ public class Xml {
         }
     }
 
-    public static void scriviPersone(){
+    /*public static void scriviPersone(){
         XMLOutputFactory xmlof = null;
         XMLStreamWriter xmlw = null;
         String[] check_persone = {}; // esempio di dati da scrivere
@@ -100,5 +100,5 @@ public class Xml {
     } catch (Exception e) { // se c’è un errore viene eseguita questa parte
             System.out.println("Errore nella scrittura");
     }
-    }
+    }*/
     }
