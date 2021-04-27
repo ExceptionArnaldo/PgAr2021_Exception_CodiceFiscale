@@ -18,6 +18,14 @@ public class codiceFiscale {
         this.cod_fis = cod_fis;
     }
 
+    public String getCod_fis() {
+        return cod_fis;
+    }
+
+    public void setCod_fis(String cod_fis) {
+        this.cod_fis = cod_fis;
+    }
+
     public char cifraControllo(String cod_fis_temp){ // metodo per calcolare la cifra di controllo
         String char_pos_pari = "";      // caratteri nelle posizioni pari
         String char_pos_dispari = "";   // caratteri nelle posizioni dispari

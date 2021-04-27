@@ -79,8 +79,6 @@ public class Persona {
         codice_fiscale_temp.append(codice_fiscale.cifraControllo(codice_fiscale_temp.toString()));
 
         this.codice_fiscale = new codiceFiscale(codice_fiscale_temp.toString());
-
-        System.out.println(codice_fiscale_temp);
     }
 
     public String codice_cognome(){
@@ -196,6 +194,7 @@ public class Persona {
                 ", sesso='" + sesso + '\'' +
                 ", comune_nascita='" + comune_nascita + '\'' +
                 ", data_nascita='" + data_nascita + '\'' +
+                ", codice_fiscale='" + codice_fiscale.getCod_fis() + '\'' +
                 '}';
     }
 }

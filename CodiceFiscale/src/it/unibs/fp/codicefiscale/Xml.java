@@ -23,7 +23,7 @@ public class Xml {
             xmlr = xmlif.createXMLStreamReader(file, new FileInputStream(file));
             while (xmlr.hasNext()) {
                 if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
-                    System.out.println("Tag " + xmlr.getLocalName());
+                    //System.out.println("Tag " + xmlr.getLocalName());
                     switch (xmlr.getLocalName()) {
                         case "nome":
                             xmlr.next();
@@ -51,11 +51,11 @@ public class Xml {
                 xmlr.next();
             }
         } catch (Exception e) {
-            System.out.println("Errore nell'inizializzazione del reader:");
-            System.out.println(e.getMessage());
+            //System.out.println("Errore nell'inizializzazione del reader:");
+            //System.out.println(e.getMessage());
         }
         //test funzionamento salvataggio dati
-        persone.forEach(persona -> System.out.println("\n" + persone));
+        //persone.forEach(persona -> System.out.println("\n" + persone));
     }
 
 
@@ -119,25 +119,25 @@ public class Xml {
             while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
                 switch (xmlr.getEventType()) { // switch sul tipo di evento
                     case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
-                        System.out.println("Start Read Doc " + nome_file);
+                        //System.out.println("Start Read Doc " + nome_file);
                         break;
                     case XMLStreamConstants.START_ELEMENT: // inizio di un elemento: stampa il nome del tag e i suoi attributi
-                        System.out.println("Tag " + xmlr.getLocalName());
+                        //System.out.println("Tag " + xmlr.getLocalName());
                         for (int i = 0; i < xmlr.getAttributeCount(); i++)
-                            System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i), xmlr.getAttributeValue(i));
+                            //System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i), xmlr.getAttributeValue(i));
                         break;
                     case XMLStreamConstants.END_ELEMENT: // fine di un elemento: stampa il nome del tag chiuso
-                        System.out.println("END-Tag " + xmlr.getLocalName());
+                        //System.out.println("END-Tag " + xmlr.getLocalName());
                         break;
                     case XMLStreamConstants.COMMENT:
-                        System.out.println("// commento " + xmlr.getText());
+                        //System.out.println("// commento " + xmlr.getText());
                         break; // commento: ne stampa il contenuto
                     case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
                         if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
 
                             if (trovato) return xmlr.getText();
                             if (xmlr.getText().equals(comune)) trovato = true;
-                            System.out.println("-> " + xmlr.getText());
+                            //System.out.println("-> " + xmlr.getText());
 
                         }
                         break;
@@ -145,8 +145,8 @@ public class Xml {
                 xmlr.next();
             }
         } catch (Exception e) {
-            System.out.println("Errore nell'inizializzazione del reader:");
-            System.out.println(e.getMessage());
+            //System.out.println("Errore nell'inizializzazione del reader:");
+            //System.out.println(e.getMessage());
         }
         return null;
     }
