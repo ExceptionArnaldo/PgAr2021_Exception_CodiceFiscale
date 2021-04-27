@@ -4,6 +4,8 @@ public class Persona {
 
     private final static char X = 'X';
 
+    private final static char [] CODICE_MESE = {'A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'};
+
     private final static String comuneFile = "comuni.xml";
 
     private final static String FEMMINA = "F";
@@ -85,74 +87,29 @@ public class Persona {
         String codice_fiscale_temp = "";
         String vocali = "";
         String consonanti = "";
+        String caratteri;
 
         String cognome_temp = cognome.toUpperCase();
 
-        for(int i = 0; i < cognome_temp.length(); i++)
-        {
-            if(cognome_temp.charAt(i) == 'A' || cognome_temp.charAt(i) == 'E' || cognome_temp.charAt(i) == 'I' || cognome_temp.charAt(i) == 'O' || cognome_temp.charAt(i) == 'U')
-            {
+        for(int i = 0; i < cognome_temp.length(); i++) {
+            if(cognome_temp.charAt(i) == 'A' || cognome_temp.charAt(i) == 'E' || cognome_temp.charAt(i) == 'I' || cognome_temp.charAt(i) == 'O' || cognome_temp.charAt(i) == 'U') {
                 vocali += cognome_temp.charAt(i);
             }
-            else
-            {
+            else {
                 consonanti += cognome_temp.charAt(i);
             }
         }
 
-        if(consonanti.length() >= 3)
-        {
-            codice_fiscale_temp = consonanti.substring(0, 3);
-        }
+        caratteri = consonanti + vocali;
 
-        if(consonanti.length() == 2 && vocali.length() > 0)
-        {
-            codice_fiscale_temp += consonanti;
-            codice_fiscale_temp += vocali.substring(0, 1);
+        if(caratteri.length() >= 3){
+            codice_fiscale_temp = caratteri.substring(0, 3);
         }
-
-        if(consonanti.length() == 1 && vocali.length() == 1)
-        {
-            codice_fiscale_temp += consonanti;
-            codice_fiscale_temp += vocali;
-            codice_fiscale_temp += X;
-        }
-
-        if(consonanti.length() == 2 && vocali.length() == 0)
-        {
-            codice_fiscale_temp += consonanti;
-            codice_fiscale_temp += X;
-        }
-
-        if(consonanti.length() == 1 && vocali.length() == 0)
-        {
-            codice_fiscale_temp += consonanti;
-            codice_fiscale_temp += X;
-            codice_fiscale_temp += X;
-        }
-
-        if(consonanti.length() == 1 && vocali.length() >= 2)
-        {
-            codice_fiscale_temp += consonanti.substring(0, 1);
-            codice_fiscale_temp += consonanti.substring(0, 2);
-        }
-
-        if(consonanti.length() == 0 && vocali.length() >= 3)
-        {
-            codice_fiscale_temp += vocali.substring(0, 3);
-        }
-
-        if(consonanti.length() == 0 && vocali.length() == 2)
-        {
-            codice_fiscale_temp += vocali.substring(0, 2);
-            codice_fiscale_temp += X;
-        }
-
-        if(consonanti.length() == 0 && vocali.length() == 1)
-        {
-            codice_fiscale_temp += vocali;
-            codice_fiscale_temp += X;
-            codice_fiscale_temp += X;
+        else {
+            codice_fiscale_temp = caratteri;
+            while(codice_fiscale_temp.length() != 3){
+                codice_fiscale_temp += X;
+            }
         }
 
         return codice_fiscale_temp;
@@ -162,68 +119,33 @@ public class Persona {
         String codice_fiscale_temp = "";
         String vocali = "";
         String consonanti = "";
+        String caratteri;
 
         String nome_temp = nome.toUpperCase();
 
-        for(int i = 0; i < nome_temp.length(); i++)
-        {
-            if(nome_temp.charAt(i) == 'A' || nome_temp.charAt(i) == 'E' || nome_temp.charAt(i) == 'I' || nome_temp.charAt(i) == 'O' || nome_temp.charAt(i) == 'U')
-            {
+        for(int i = 0; i < nome_temp.length(); i++) {
+            if(nome_temp.charAt(i) == 'A' || nome_temp.charAt(i) == 'E' || nome_temp.charAt(i) == 'I' || nome_temp.charAt(i) == 'O' || nome_temp.charAt(i) == 'U') {
                 vocali += nome_temp.charAt(i);
             }
-            else
-            {
+            else {
                 consonanti += nome_temp.charAt(i);
             }
         }
 
-        if(consonanti.length() >= 4)
-        {
-            codice_fiscale_temp += consonanti.charAt(0);
-            codice_fiscale_temp += consonanti.charAt(2);
-            codice_fiscale_temp += consonanti.charAt(3);
+        if(consonanti.length() >= 4){
+            codice_fiscale_temp = consonanti.charAt(0) + consonanti.substring(2, 4);
         }
-
-        if(consonanti.length() == 3)
-        {
-            codice_fiscale_temp += consonanti;
-        }
-
-        if(consonanti.length() == 2 && vocali.length() >= 1)
-        {
-            codice_fiscale_temp += consonanti;
-            codice_fiscale_temp += vocali.substring(0, 1);
-        }
-
-        if(consonanti.length() == 2 && vocali.length() == 0)
-        {
-            codice_fiscale_temp += consonanti;
-            codice_fiscale_temp += X;
-        }
-
-        if(consonanti.length() == 1 && vocali.length() == 0)
-        {
-            codice_fiscale_temp = consonanti;
-            codice_fiscale_temp += X;
-            codice_fiscale_temp += X;
-        }
-
-        if(consonanti.length() == 0 && vocali.length() >= 3)
-        {
-            codice_fiscale_temp += vocali.substring(0, 3);
-        }
-
-        if(consonanti.length() == 1 && vocali.length() == 1)
-        {
-            codice_fiscale_temp += consonanti;
-            codice_fiscale_temp += vocali;
-            codice_fiscale_temp += X;
-        }
-
-        if(consonanti.length() == 0 && vocali.length() == 2)
-        {
-            codice_fiscale_temp += vocali;
-            codice_fiscale_temp += X;
+        else {
+            caratteri = consonanti + vocali;
+            if(caratteri.length() >= 3){
+                codice_fiscale_temp = caratteri.substring(0, 3);
+            }
+            else {
+                codice_fiscale_temp = caratteri;
+                while(codice_fiscale_temp.length() != 3){
+                    codice_fiscale_temp += X;
+                }
+            }
         }
 
         return codice_fiscale_temp;
@@ -241,66 +163,23 @@ public class Persona {
         codice_fiscale_temp += data_nascita.charAt(3);
 
         //estrazione del mese
-        switch(mese){
-            case 1:
-                codice_fiscale_temp += "A";
-                break;
-            case 2:
-                codice_fiscale_temp += "B";
-                break;
-            case 3:
-                codice_fiscale_temp += "C";
-                break;
-            case 4:
-                codice_fiscale_temp += "D";
-                break;
-            case 5:
-                codice_fiscale_temp += "E";
-                break;
-            case 6:
-                codice_fiscale_temp += "H";
-                break;
-            case 7:
-                codice_fiscale_temp += "L";
-                break;
-            case 8:
-                codice_fiscale_temp += "M";
-                break;
-            case 9:
-                codice_fiscale_temp += "P";
-                break;
-            case 10:
-                codice_fiscale_temp += "R";
-                break;
-            case 11:
-                codice_fiscale_temp += "S";
-                break;
-            case 12:
-                codice_fiscale_temp += "T";
-                break;
-        }
+        codice_fiscale_temp += CODICE_MESE[mese-1];
 
         //estrazione del giorno
-        if(sesso.equals(FEMMINA))
-        {
+        if(sesso.equals(FEMMINA)) {
             giorno = giorno + 40;
         }
 
-        else
-        {
-            if(giorno > 10)
-            {
+        else {
+            if(giorno > 10) {
                 codice_fiscale_temp += giorno;
             }
-
-            else
-            {
+            else {
                 codice_fiscale_temp += "0" + giorno;
             }
         }
 
         return codice_fiscale_temp;
-
     }
 
     public String codice_comune(){

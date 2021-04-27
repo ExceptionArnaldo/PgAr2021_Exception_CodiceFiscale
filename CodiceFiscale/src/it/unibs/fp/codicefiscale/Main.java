@@ -8,11 +8,11 @@ public class Main {
 
         ArrayList<Persona> persone = new ArrayList<>();
 
-        Persona p = new Persona("Yuhang", "Ye", "M", "soave", "2001-07-23", new codiceFiscale(" "));
+        Persona p = new Persona("yuhang", "ye", "M", "soave", "2001-07-23", new codiceFiscale(" "));
 
         p.genera_codice_fiscale();
         System.out.println(p);
-        Xml.leggiPersone(persone);
+        //Xml.leggiPersone(persone);
 
         //Xml.leggiPersone();
     }
