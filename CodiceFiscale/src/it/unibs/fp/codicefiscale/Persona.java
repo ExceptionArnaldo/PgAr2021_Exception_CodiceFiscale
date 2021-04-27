@@ -76,6 +76,8 @@ public class Persona {
 
         codice_fiscale_temp.append(codice_fiscale.cifraControllo(codice_fiscale_temp.toString()));
 
+        this.codice_fiscale = new codiceFiscale(codice_fiscale_temp.toString());
+
         System.out.println(codice_fiscale_temp);
     }
 
