@@ -9,7 +9,6 @@ public class Persona {
     private final static String comuneFile = "comuni.xml";
 
     private final static String FEMMINA = "F";
-    private final static String MASCHIO = "M";
 
     private String nome;
     private String cognome;

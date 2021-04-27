@@ -109,6 +109,7 @@ public class Xml {
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlr = null;
 
+        String codice="";
         boolean trovato = false;
 
         try {
@@ -135,7 +136,10 @@ public class Xml {
                     case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
                         if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
 
-                            if (trovato) return xmlr.getText();
+                            if (trovato) {
+                                codice = xmlr.getText();
+                                return codice;
+                            }
                             if (xmlr.getText().equals(comune)) trovato = true;
                             //System.out.println("-> " + xmlr.getText());
 
@@ -148,6 +152,51 @@ public class Xml {
             //System.out.println("Errore nell'inizializzazione del reader:");
             //System.out.println(e.getMessage());
         }
-        return null;
+        return codice;
+    }
+
+    public static void leggiCodiceFiscale(String nome_file, ArrayList<codiceFiscale> codici){
+
+        XMLInputFactory xmlif = null;
+        XMLStreamReader xmlr = null;
+
+        String cod_fis;
+        try {
+            xmlif = XMLInputFactory.newInstance();
+            xmlr = xmlif.createXMLStreamReader(nome_file, new FileInputStream(nome_file));
+
+
+            while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
+                switch (xmlr.getEventType()) { // switch sul tipo di evento
+                    case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
+                        //System.out.println("Start Read Doc " + nome_file);
+                        break;
+                    case XMLStreamConstants.START_ELEMENT: // inizio di un elemento: stampa il nome del tag e i suoi attributi
+                        //System.out.println("Tag " + xmlr.getLocalName());
+                        for (int i = 0; i < xmlr.getAttributeCount(); i++)
+                            //System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i), xmlr.getAttributeValue(i));
+                            break;
+                    case XMLStreamConstants.END_ELEMENT: // fine di un elemento: stampa il nome del tag chiuso
+                        //System.out.println("END-Tag " + xmlr.getLocalName());
+                        break;
+                    case XMLStreamConstants.COMMENT:
+                        //System.out.println("// commento " + xmlr.getText());
+                        break; // commento: ne stampa il contenuto
+                    case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
+                        if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
+                            cod_fis = xmlr.getText();
+                            if(new codiceFiscale(cod_fis).validitàCodice())
+                                codici.add(new codiceFiscale(cod_fis));
+                            //System.out.println("-> " + xmlr.getText());
+
+                        }
+                        break;
+                }
+                xmlr.next();
+            }
+        } catch (Exception e) {
+            //System.out.println("Errore nell'inizializzazione del reader:");
+            //System.out.println(e.getMessage());
+        }
     }
 }
