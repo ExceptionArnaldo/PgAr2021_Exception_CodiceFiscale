@@ -1,5 +1,7 @@
 package it.unibs.fp.codicefiscale;
 
+import java.util.ArrayList;
+
 public class Persona {
 
     private final static char X = 'X';
@@ -183,6 +185,15 @@ public class Persona {
 
         return Xml.leggiComune(comuneFile, comune_nascita.toUpperCase());
 
+    }
+
+    public void confrontoCodici(ArrayList<Persona> persone, ArrayList<codiceFiscale> codice) {
+        for (int i = 0; i < persone.size(); i++) {
+            for (int j = 0; j < codice.size(); j++) {
+                if (!persone.get(i).codice_fiscale.getCod_fis().equals(codice.get(i)))
+                    persone.get(i).codice_fiscale.setCod_fis("ASSENTE");
+            }
+        }
     }
 
     @Override
