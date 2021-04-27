@@ -7,6 +7,6 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<Persona> persone = new ArrayList<>();
-        Xml.leggiPersone();
+        Xml.leggiPersone(persone);
     }
 }

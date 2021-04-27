@@ -3,13 +3,20 @@ package it.unibs.fp.codicefiscale;
 import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class Xml {
-    public static void leggiPersone() {
-        XMLInputFactory xmlif = null;
-        XMLStreamReader xmlr = null;
+    public static void leggiPersone(ArrayList<Persona> persone) {
+        XMLInputFactory xmlif;
+        XMLStreamReader xmlr;
 
-        String file = "/GitHub/PgAr2021_Exception_CodiceFiscale/inputPersone.xml";
+        String nome = null;
+        String cognome = null;
+        String sesso = null;
+        String comune_nascita = null;
+        String data_nascita;
+
+        String file = "/PgAr2021_Exception_CodiceFiscale/inputPersone.xml";
 
         try {
             xmlif = XMLInputFactory.newInstance();
@@ -24,6 +31,37 @@ public class Xml {
                         System.out.println("Tag " + xmlr.getLocalName());
                         for (int i = 0; i < xmlr.getAttributeCount(); i++)
                             System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i), xmlr.getAttributeValue(i));
+
+                        switch (xmlr.getLocalName()) {      //da sistemare
+                            case "nome":
+                                xmlr.next();
+                                nome = xmlr.getText();
+                                System.out.println("-> " + xmlr.getText());
+                                break;
+                            case "cognome":
+                                xmlr.next();
+                                cognome = xmlr.getText();
+                                System.out.println("-> " + xmlr.getText());
+                                break;
+                            case "sesso":
+                                xmlr.next();
+                                sesso = xmlr.getText();
+                                System.out.println("-> " + xmlr.getText());
+                                break;
+                            case "comune_nascita":
+                                xmlr.next();
+                                comune_nascita = xmlr.getText();
+                                System.out.println("-> " + xmlr.getText());
+                                break;
+                            case "data_nascita":
+                                xmlr.next();
+                                data_nascita = xmlr.getText();
+                                System.out.println("-> " + xmlr.getText());
+                                persone.add(new Persona(nome, cognome, sesso, comune_nascita, data_nascita));
+                                break;
+                        }
+
+
                         break;
                     case XMLStreamConstants.END_ELEMENT:
                         System.out.println("END-Tag " + xmlr.getLocalName());
@@ -31,30 +69,21 @@ public class Xml {
                     case XMLStreamConstants.COMMENT:
                         System.out.println("// commento " + xmlr.getText());
                         break;
-                    case XMLStreamConstants.CHARACTERS:
-                         /*if(xmlr.getLocalName().equals("nome"))
-                             //getNome
-                        else if(xmlr.getLocalName().equals("cognome"))
-                            //getCognome
-                        else if(xmlr.getLocalName().equals("sesso"))
-                            //getSesso
-                        else if(xmlr.getLocalName().equals("comune_nascita"))
-                            //getComune_nascita
-                        else if(xmlr.getLocalName().equals("data_nascita"))
-                            //getData_nascita
-                        */
+                    /*case XMLStreamConstants.CHARACTERS:
                         if (xmlr.getText().trim().length() > 0)
                             System.out.println("-> " + xmlr.getText());
-                        break;
+                        break;*/
+
                 }
 
                 xmlr.next();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Errore nell'inizializzazione del reader:");
             System.out.println(e.getMessage());
         }
+        //test funzionamento salvataggio dati
+        persone.forEach(persona -> System.out.println("\n" + persone));
     }
 
     /*public static void scriviPersone(){
@@ -101,4 +130,4 @@ public class Xml {
             System.out.println("Errore nella scrittura");
     }
     }*/
-    }
+}
