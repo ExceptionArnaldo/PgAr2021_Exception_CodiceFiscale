@@ -3,59 +3,61 @@ package it.unibs.fp.codicefiscale;
 import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class Xml {
 
-    public static void leggiPersone() {
+    public static void leggiPersone(ArrayList<Persona> persone) {
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlr = null;
 
-        String file = "/GitHub/PgAr2021_Exception_CodiceFiscale/inputPersone.xml";
+        String file = "inputPersone.xml";
+        String nome = null;
+        String cognome = null;
+        String sesso = null;
+        String comune_nascita = null;
+        String data_nascita;
 
         try {
             xmlif = XMLInputFactory.newInstance();
             xmlr = xmlif.createXMLStreamReader(file, new FileInputStream(file));
             while (xmlr.hasNext()) {
-                switch (xmlr.getEventType()) {
-                    case XMLStreamConstants.START_DOCUMENT:
-                        System.out.println("Start Read Doc " + file);
-                        break;
-
-                    case XMLStreamConstants.START_ELEMENT:
-                        System.out.println("Tag " + xmlr.getLocalName());
-                        for (int i = 0; i < xmlr.getAttributeCount(); i++)
-                            System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i), xmlr.getAttributeValue(i));
-                        break;
-                    case XMLStreamConstants.END_ELEMENT:
-                        System.out.println("END-Tag " + xmlr.getLocalName());
-                        break;
-                    case XMLStreamConstants.COMMENT:
-                        System.out.println("// commento " + xmlr.getText());
-                        break;
-                    case XMLStreamConstants.CHARACTERS:
-                         /*if(xmlr.getLocalName().equals("nome"))
-                             //getNome
-                        else if(xmlr.getLocalName().equals("cognome"))
-                            //getCognome
-                        else if(xmlr.getLocalName().equals("sesso"))
-                            //getSesso
-                        else if(xmlr.getLocalName().equals("comune_nascita"))
-                            //getComune_nascita
-                        else if(xmlr.getLocalName().equals("data_nascita"))
-                            //getData_nascita*/
-
-                        if (xmlr.getText().trim().length() > 0)
-                            System.out.println("-> " + xmlr.getText());
-                        break;
+                if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
+                    System.out.println("Tag " + xmlr.getLocalName());
+                    switch (xmlr.getLocalName()) {
+                        case "nome":
+                            xmlr.next();
+                            nome = xmlr.getText();
+                            break;
+                        case "cognome":
+                            xmlr.next();
+                            cognome = xmlr.getText();
+                            break;
+                        case "sesso":
+                            xmlr.next();
+                            sesso = xmlr.getText();
+                            break;
+                        case "comune_nascita":
+                            xmlr.next();
+                            comune_nascita = xmlr.getText();
+                            break;
+                        case "data_nascita":
+                            xmlr.next();
+                            data_nascita = xmlr.getText();
+                            persone.add(new Persona(nome, cognome, sesso, comune_nascita, data_nascita, new codiceFiscale(" ")));
+                            break;
+                    }
                 }
-
                 xmlr.next();
             }
         } catch (Exception e) {
             System.out.println("Errore nell'inizializzazione del reader:");
             System.out.println(e.getMessage());
         }
+        //test funzionamento salvataggio dati
+        persone.forEach(persona -> System.out.println("\n" + persone));
     }
+
 
     /*public static void scriviPersone(){
         XMLOutputFactory xmlof = null;
@@ -134,7 +136,7 @@ public class Xml {
                         if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
 
                             if (trovato) return xmlr.getText();
-                            if(xmlr.getText().equals(comune)) trovato = true;
+                            if (xmlr.getText().equals(comune)) trovato = true;
                             System.out.println("-> " + xmlr.getText());
 
                         }

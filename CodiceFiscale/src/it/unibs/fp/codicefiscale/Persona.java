@@ -6,17 +6,17 @@ public class Persona {
 
     private final static String comuneFile = "comuni.xml";
 
-    private final static char FEMMINA = 'F';
-    private final static char MASCHIO = 'M';
+    private final static String FEMMINA = "F";
+    private final static String MASCHIO = "M";
 
     private String nome;
     private String cognome;
-    private char sesso;
+    private String sesso;
     private String comune_nascita;
     private String data_nascita;
     private codiceFiscale codice_fiscale;
 
-    public Persona(String nome, String cognome, char sesso, String comune_nascita, String data_nascita, codiceFiscale codice_fiscale) {
+    public Persona(String nome, String cognome, String sesso, String comune_nascita, String data_nascita, codiceFiscale codice_fiscale) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
@@ -41,11 +41,11 @@ public class Persona {
         this.cognome = cognome;
     }
 
-    public char getSesso() {
+    public String getSesso() {
         return sesso;
     }
 
-    public void setSesso(char sesso) {
+    public void setSesso(String sesso) {
         this.sesso = sesso;
     }
 
@@ -279,7 +279,7 @@ public class Persona {
         }
 
         //estrazione del giorno
-        if(sesso == FEMMINA)
+        if(sesso.equals(FEMMINA))
         {
             giorno = giorno + 40;
         }
