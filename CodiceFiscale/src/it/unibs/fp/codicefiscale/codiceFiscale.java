@@ -115,7 +115,8 @@ public class codiceFiscale {
     }
 
     public boolean controlloUltimaLettera(char ultimaLettera){
-        if (ultimaLettera == cifraControllo(cod_fis)) return true;
+        System.out.println(cifraControllo(cod_fis.substring(0, 15)));
+        if (ultimaLettera == cifraControllo(cod_fis.substring(0,15))) return true;
         else return false;
     }
 }
