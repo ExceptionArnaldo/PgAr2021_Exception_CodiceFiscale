@@ -22,7 +22,7 @@ public class Main {
             System.out.println(persone.get(i).toString());
         }*/
 
-        codiceFiscale c = new codiceFiscale("YEXYNG01L23I775H");
+        codiceFiscale c = new codiceFiscale("GCCSLD65T04D583R");
         System.out.println(c.validitàCodice());
 
         //Xml.leggiCodiceFiscale(codice);

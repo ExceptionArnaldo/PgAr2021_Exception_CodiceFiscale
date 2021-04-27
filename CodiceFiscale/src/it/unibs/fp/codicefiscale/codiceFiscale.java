@@ -4,17 +4,19 @@ import java.util.Locale;
 
 public class codiceFiscale {
 
-    private final char[] ELENCO_PARI = {'0','1','2','3','4','5','6','7','8','9','A','B',
+    private final static char[] ELENCO_PARI = {'0','1','2','3','4','5','6','7','8','9','A','B',
             'C','D','E','F','G','H','I','J','K','L','M','N',
             'O','P','Q','R','S','T','U','V','W','X','Y','Z'
     };
 
-    private final int[] ELENCO_DISPARI= {1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 1, 0, 5, 7, 9, 13,
+    private final static int[] ELENCO_DISPARI= {1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 1, 0, 5, 7, 9, 13,
             15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16,
             10, 22, 25, 24, 23
     };
 
     private final static char [] CODICE_MESE = {'A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'};
+
+    private final static int [] GIORNI_MESE = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     private String cod_fis;
 
@@ -33,7 +35,7 @@ public class codiceFiscale {
     public char cifraControllo(String cod_fis_temp){ // metodo per calcolare la cifra di controllo
         String char_pos_pari = "";      // caratteri nelle posizioni pari
         String char_pos_dispari = "";   // caratteri nelle posizioni dispari
-        int somma=0;
+        int somma = 0;
 
         for(int i = 0 ; i < cod_fis_temp.length(); i++) {   // for per dividere i caratteri pari e dispari(posizioni)
             if(i % 2 == 0)
@@ -109,13 +111,18 @@ public class codiceFiscale {
     }
 
     public boolean controlloGiorno(int giorno){
-        if ((giorno >= 1 && giorno <= 31) || (giorno >= 41 && giorno <= 71)) return true;
-        else return false;
+        for(int i = 0; i < CODICE_MESE.length; i++){
+            if (cod_fis.charAt(8) == CODICE_MESE[i]) {
+                if((giorno >= 1 && giorno <= GIORNI_MESE[i]) || (giorno >= 41 && giorno <= GIORNI_MESE[i] + 40)){
+                    return true;
+                }
+            }
+        }
 
+        return false;
     }
 
     public boolean controlloUltimaLettera(char ultimaLettera){
-        System.out.println(cifraControllo(cod_fis.substring(0, 15)));
         if (ultimaLettera == cifraControllo(cod_fis.substring(0,15))) return true;
         else return false;
     }
