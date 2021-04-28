@@ -2,16 +2,16 @@ package it.unibs.fp.codicefiscale;
 
 import javax.xml.stream.*;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class Xml {
 
-    public static void leggiPersone(ArrayList<Persona> persone) {
+    //legge un file xml e salva i dati delle persone in un ArrayList di tipo persona
+    public static void leggiPersone(String nome_file, ArrayList<Persona> persone) {
+
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlr = null;
 
-        String file = "inputPersone.xml";
         String nome = null;
         String cognome = null;
         String sesso = null;
@@ -20,10 +20,9 @@ public class Xml {
 
         try {
             xmlif = XMLInputFactory.newInstance();
-            xmlr = xmlif.createXMLStreamReader(file, new FileInputStream(file));
+            xmlr = xmlif.createXMLStreamReader(nome_file, new FileInputStream(nome_file));
             while (xmlr.hasNext()) {
-                if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
-                    //System.out.println("Tag " + xmlr.getLocalName());
+                if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) { //interessano solo i dati relativi alle persone
                     switch (xmlr.getLocalName()) {
                         case "nome":
                             xmlr.next();
@@ -44,22 +43,19 @@ public class Xml {
                         case "data_nascita":
                             xmlr.next();
                             data_nascita = xmlr.getText();
-                            persone.add(new Persona(nome, cognome, sesso, comune_nascita, data_nascita, new codiceFiscale(" ")));
+                            persone.add(new Persona(nome, cognome, sesso, comune_nascita, data_nascita, new codiceFiscale(" "))); //ottenuti tutti i valori dell'xml di una persona. Creazione Persona
                             break;
                     }
                 }
                 xmlr.next();
             }
         } catch (Exception e) {
-            //System.out.println("Errore nell'inizializzazione del reader:");
-            //System.out.println(e.getMessage());
+            System.out.println("Errore nell'inizializzazione del reader:");
+            System.out.println(e.getMessage());
         }
-        //test funzionamento salvataggio dati
-        //persone.forEach(persona -> System.out.println("\n" + persone));
     }
 
-
-    /*public static void scriviPersone(){
+    /*public static void scriviPersone(String nome_file, ArrayList<Persona> persone, invalidi, spaiati){
         XMLOutputFactory xmlof = null;
         XMLStreamWriter xmlw = null;
         String[] check_persone = {}; // esempio di dati da scrivere
@@ -104,99 +100,76 @@ public class Xml {
     }
     }*/
 
+    //prende il comune di nascita della persona e restituisce il relativo codice se trovato nel file xml
     public static String leggiComune(String nome_file, String comune) {
 
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlr = null;
 
-        String codice="";
+        String codice = "";
+
         boolean trovato = false;
 
         try {
             xmlif = XMLInputFactory.newInstance();
             xmlr = xmlif.createXMLStreamReader(nome_file, new FileInputStream(nome_file));
 
-
             while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
-                switch (xmlr.getEventType()) { // switch sul tipo di evento
-                    case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
-                        //System.out.println("Start Read Doc " + nome_file);
-                        break;
-                    case XMLStreamConstants.START_ELEMENT: // inizio di un elemento: stampa il nome del tag e i suoi attributi
-                        //System.out.println("Tag " + xmlr.getLocalName());
-                        for (int i = 0; i < xmlr.getAttributeCount(); i++)
-                            //System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i), xmlr.getAttributeValue(i));
-                        break;
-                    case XMLStreamConstants.END_ELEMENT: // fine di un elemento: stampa il nome del tag chiuso
-                        //System.out.println("END-Tag " + xmlr.getLocalName());
-                        break;
-                    case XMLStreamConstants.COMMENT:
-                        //System.out.println("// commento " + xmlr.getText());
-                        break; // commento: ne stampa il contenuto
-                    case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
-                        if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
-
-                            if (trovato) {
-                                codice = xmlr.getText();
-                                return codice;
-                            }
-                            if (xmlr.getText().equals(comune)) trovato = true;
-                            //System.out.println("-> " + xmlr.getText());
-
+                if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) { //interessa solo il nome dei comuni
+                    if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
+                        if (trovato) {
+                            codice = xmlr.getText();
+                            return codice;
                         }
-                        break;
+                        if (xmlr.getText().equals(comune)) trovato = true;
+                    }
                 }
                 xmlr.next();
             }
         } catch (Exception e) {
-            //System.out.println("Errore nell'inizializzazione del reader:");
-            //System.out.println(e.getMessage());
+            System.out.println("Errore nell'inizializzazione del reader:");
+            System.out.println(e.getMessage());
         }
         return codice;
     }
 
-    public static void leggiCodiceFiscale(String nome_file, ArrayList<codiceFiscale> codici){
+    //legge xml e riempie un ArrayList di codici fiscali se questi risultano corretti. Restituisce il numero totale di codici controllati
+    public static int leggiCodiceFiscale(String nome_file, ArrayList<codiceFiscale> codici) {
 
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlr = null;
 
+        int codici_tot = 0;
+
         String cod_fis;
+
         try {
             xmlif = XMLInputFactory.newInstance();
             xmlr = xmlif.createXMLStreamReader(nome_file, new FileInputStream(nome_file));
 
-
             while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
-                switch (xmlr.getEventType()) { // switch sul tipo di evento
-                    case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
-                        //System.out.println("Start Read Doc " + nome_file);
+                // switch sul tipo di evento
+                switch (xmlr.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT: //controlla se il tag e' un codice, in caso affermativo incrementa il contatore
+                        if (xmlr.getLocalName().equals("codice"))
+                            codici_tot++;
                         break;
-                    case XMLStreamConstants.START_ELEMENT: // inizio di un elemento: stampa il nome del tag e i suoi attributi
-                        //System.out.println("Tag " + xmlr.getLocalName());
-                        for (int i = 0; i < xmlr.getAttributeCount(); i++)
-                            //System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i), xmlr.getAttributeValue(i));
-                            break;
-                    case XMLStreamConstants.END_ELEMENT: // fine di un elemento: stampa il nome del tag chiuso
-                        //System.out.println("END-Tag " + xmlr.getLocalName());
-                        break;
-                    case XMLStreamConstants.COMMENT:
-                        //System.out.println("// commento " + xmlr.getText());
-                        break; // commento: ne stampa il contenuto
-                    case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
-                        if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
-                            cod_fis = xmlr.getText();
-                            if(new codiceFiscale(cod_fis).validitàCodice())
-                                codici.add(new codiceFiscale(cod_fis));
-                            //System.out.println("-> " + xmlr.getText());
-
+                    case XMLStreamConstants.CHARACTERS:
+                        if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) {
+                            if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
+                                cod_fis = xmlr.getText();
+                                if (new codiceFiscale(cod_fis).validitaCodice()) //crea codice fiscale e verifica se e' corretto
+                                    codici.add(new codiceFiscale(cod_fis)); //se corretto lo aggiunge all' ArrayList
+                            }
                         }
                         break;
                 }
                 xmlr.next();
             }
         } catch (Exception e) {
-            //System.out.println("Errore nell'inizializzazione del reader:");
-            //System.out.println(e.getMessage());
+            System.out.println("Errore nell'inizializzazione del reader:");
+            System.out.println(e.getMessage());
         }
+        return codici_tot;
     }
 }

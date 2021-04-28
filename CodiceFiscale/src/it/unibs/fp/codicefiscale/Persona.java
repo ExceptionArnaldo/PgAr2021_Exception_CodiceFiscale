@@ -6,9 +6,9 @@ public class Persona {
 
     private final static char X = 'X';
 
-    private final static char [] CODICE_MESE = {'A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'};
+    private final static char[] CODICE_MESE = {'A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'};
 
-    private final static String comuneFile = "comuni.xml";
+    private final static String COMUNEFILE = "comuni.xml";
 
     private final static String FEMMINA = "F";
 
@@ -26,6 +26,137 @@ public class Persona {
         this.comune_nascita = comune_nascita;
         this.data_nascita = data_nascita;
         this.codice_fiscale = codice_fiscale;
+    }
+
+    public void genera_codice_fiscale() {
+
+        StringBuffer codice_fiscale_temp = new StringBuffer();
+
+        codice_fiscale_temp.append(codice_cognome());
+        codice_fiscale_temp.append(codice_nome());
+        codice_fiscale_temp.append(codice_data_nascita());
+        codice_fiscale_temp.append(codice_comune());
+
+        codice_fiscale_temp.append(codice_fiscale.cifraControllo(codice_fiscale_temp.toString()));
+
+        this.codice_fiscale = new codiceFiscale(codice_fiscale_temp.toString());
+    }
+
+    public String codice_cognome() {
+        String codice_fiscale_temp;
+        String vocali = "";
+        String consonanti = "";
+        String caratteri;
+
+        String cognome_temp = cognome.toUpperCase();
+
+        for (int i = 0; i < cognome_temp.length(); i++) {
+            if (cognome_temp.charAt(i) == 'A' || cognome_temp.charAt(i) == 'E' || cognome_temp.charAt(i) == 'I' || cognome_temp.charAt(i) == 'O' || cognome_temp.charAt(i) == 'U') {
+                vocali += cognome_temp.charAt(i);
+            } else {
+                consonanti += cognome_temp.charAt(i);
+            }
+        }
+
+        caratteri = consonanti + vocali;
+
+        if (caratteri.length() >= 3) {
+            codice_fiscale_temp = caratteri.substring(0, 3);
+        } else {
+            codice_fiscale_temp = caratteri;
+            while (codice_fiscale_temp.length() != 3) {
+                codice_fiscale_temp += X;
+            }
+        }
+
+        return codice_fiscale_temp;
+    }
+
+    public String codice_nome() {
+        String codice_fiscale_temp;
+        String vocali = "";
+        String consonanti = "";
+        String caratteri;
+
+        String nome_temp = nome.toUpperCase();
+
+        for (int i = 0; i < nome_temp.length(); i++) {
+            if (nome_temp.charAt(i) == 'A' || nome_temp.charAt(i) == 'E' || nome_temp.charAt(i) == 'I' || nome_temp.charAt(i) == 'O' || nome_temp.charAt(i) == 'U') {
+                vocali += nome_temp.charAt(i);
+            } else {
+                consonanti += nome_temp.charAt(i);
+            }
+        }
+
+        if (consonanti.length() >= 4) {
+            codice_fiscale_temp = consonanti.charAt(0) + consonanti.substring(2, 4);
+        } else {
+            caratteri = consonanti + vocali;
+            if (caratteri.length() >= 3) {
+                codice_fiscale_temp = caratteri.substring(0, 3);
+            } else {
+                codice_fiscale_temp = caratteri;
+                while (codice_fiscale_temp.length() != 3) {
+                    codice_fiscale_temp += X;
+                }
+            }
+        }
+
+        return codice_fiscale_temp;
+    }
+
+    //restituisce il codice della data di nascita
+    public String codice_data_nascita() {
+
+        String codice_fiscale_temp = "";
+
+        int mese = Integer.parseInt(data_nascita.substring(5, 7));
+        int giorno = Integer.parseInt(data_nascita.substring(8));
+
+        //estrazione dell'anno
+        codice_fiscale_temp += data_nascita.charAt(2);
+        codice_fiscale_temp += data_nascita.charAt(3);
+
+        //estrazione del mese
+        codice_fiscale_temp += CODICE_MESE[mese - 1];
+
+        //estrazione del giorno
+        if (sesso.equals(FEMMINA)) {
+            giorno = giorno + 40;
+        } else {
+            if (giorno > 10) {
+                codice_fiscale_temp += giorno;
+            } else {
+                codice_fiscale_temp += "0" + giorno;
+            }
+        }
+
+        return codice_fiscale_temp;
+    }
+
+    //restituisce il codice del comune di nascita
+    public String codice_comune() {
+
+        return Xml.leggiComune(COMUNEFILE, comune_nascita.toUpperCase());
+
+    }
+
+    //metodo che prende in input un array di persone(considerando solo i loro codici fiscali) e uno di codici. Restituisce quanti CF del secondo array non sono presenti nelle persone
+    public static int confrontoCodici(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici) {
+        int j;
+        int conta_assenti = 0;
+
+        for (int i = 0; i < persone.size(); i++) { //per ogni persona si controllano tutti i CF
+            for (j = 0; j < codici.size(); j++) {
+                if (persone.get(i).codice_fiscale.getCod_fis().equals(codici.get(j).getCod_fis())) //se il CF della persona e' presente dell'array di CF si passa alla persona successiva
+                    break;
+            }
+            if (j == codici.size()) { //se sono stati passasti tutti i CF per una persona allora il suo CF non e' presente
+                persone.get(i).codice_fiscale.setCod_fis("ASSENTE"); //il CF della persona diventa ASSENTE
+                conta_assenti++; //conta quanti CF spaiati ci sono
+            }
+        }
+        return conta_assenti;
     }
 
     public String getNome() {
@@ -66,134 +197,6 @@ public class Persona {
 
     public void setData_nascita(String data_nascita) {
         this.data_nascita = data_nascita;
-    }
-
-    public void genera_codice_fiscale(){
-
-        StringBuffer codice_fiscale_temp = new StringBuffer("");
-
-        codice_fiscale_temp.append(codice_cognome());
-        codice_fiscale_temp.append(codice_nome());
-        codice_fiscale_temp.append(codice_data_nascita());
-        codice_fiscale_temp.append(codice_comune());
-
-        codice_fiscale_temp.append(codice_fiscale.cifraControllo(codice_fiscale_temp.toString()));
-
-        this.codice_fiscale = new codiceFiscale(codice_fiscale_temp.toString());
-    }
-
-    public String codice_cognome(){
-        String codice_fiscale_temp = "";
-        String vocali = "";
-        String consonanti = "";
-        String caratteri;
-
-        String cognome_temp = cognome.toUpperCase();
-
-        for(int i = 0; i < cognome_temp.length(); i++) {
-            if(cognome_temp.charAt(i) == 'A' || cognome_temp.charAt(i) == 'E' || cognome_temp.charAt(i) == 'I' || cognome_temp.charAt(i) == 'O' || cognome_temp.charAt(i) == 'U') {
-                vocali += cognome_temp.charAt(i);
-            }
-            else {
-                consonanti += cognome_temp.charAt(i);
-            }
-        }
-
-        caratteri = consonanti + vocali;
-
-        if(caratteri.length() >= 3){
-            codice_fiscale_temp = caratteri.substring(0, 3);
-        }
-        else {
-            codice_fiscale_temp = caratteri;
-            while(codice_fiscale_temp.length() != 3){
-                codice_fiscale_temp += X;
-            }
-        }
-
-        return codice_fiscale_temp;
-    }
-
-    public String codice_nome(){
-        String codice_fiscale_temp = "";
-        String vocali = "";
-        String consonanti = "";
-        String caratteri;
-
-        String nome_temp = nome.toUpperCase();
-
-        for(int i = 0; i < nome_temp.length(); i++) {
-            if(nome_temp.charAt(i) == 'A' || nome_temp.charAt(i) == 'E' || nome_temp.charAt(i) == 'I' || nome_temp.charAt(i) == 'O' || nome_temp.charAt(i) == 'U') {
-                vocali += nome_temp.charAt(i);
-            }
-            else {
-                consonanti += nome_temp.charAt(i);
-            }
-        }
-
-        if(consonanti.length() >= 4){
-            codice_fiscale_temp = consonanti.charAt(0) + consonanti.substring(2, 4);
-        }
-        else {
-            caratteri = consonanti + vocali;
-            if(caratteri.length() >= 3){
-                codice_fiscale_temp = caratteri.substring(0, 3);
-            }
-            else {
-                codice_fiscale_temp = caratteri;
-                while(codice_fiscale_temp.length() != 3){
-                    codice_fiscale_temp += X;
-                }
-            }
-        }
-
-        return codice_fiscale_temp;
-    }
-
-    public String codice_data_nascita(){
-
-        String codice_fiscale_temp = "";
-
-        int mese = Integer.parseInt(data_nascita.substring(5, 7));
-        int giorno = Integer.parseInt(data_nascita.substring(8));
-
-        //estrazione dell'anno
-        codice_fiscale_temp += data_nascita.charAt(2);
-        codice_fiscale_temp += data_nascita.charAt(3);
-
-        //estrazione del mese
-        codice_fiscale_temp += CODICE_MESE[mese-1];
-
-        //estrazione del giorno
-        if(sesso.equals(FEMMINA)) {
-            giorno = giorno + 40;
-        }
-
-        else {
-            if(giorno > 10) {
-                codice_fiscale_temp += giorno;
-            }
-            else {
-                codice_fiscale_temp += "0" + giorno;
-            }
-        }
-
-        return codice_fiscale_temp;
-    }
-
-    public String codice_comune(){
-
-        return Xml.leggiComune(comuneFile, comune_nascita.toUpperCase());
-
-    }
-
-    public void confrontoCodici(ArrayList<Persona> persone, ArrayList<codiceFiscale> codice) {
-        for (int i = 0; i < persone.size(); i++) {
-            for (int j = 0; j < codice.size(); j++) {
-                if (!persone.get(i).codice_fiscale.getCod_fis().equals(codice.get(i)))
-                    persone.get(i).codice_fiscale.setCod_fis("ASSENTE");
-            }
-        }
     }
 
     @Override
