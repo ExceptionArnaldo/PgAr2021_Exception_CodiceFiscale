@@ -16,9 +16,8 @@ public class Main {
 
         ArrayList<Persona> persone = new ArrayList<>();
         ArrayList<codiceFiscale> codici = new ArrayList<>();
-
-        int codici_tot;
-        int codici_spaiati;
+        ArrayList<codiceFiscale> codici_invalidi = new ArrayList<>();
+        ArrayList<codiceFiscale> codici_spaiati = new ArrayList<>();
 
         //Persona p = new Persona("yuhang", "ye", "M", "soave", "2001-07-23", new codiceFiscale(" "));
 
@@ -33,12 +32,12 @@ public class Main {
         }
 
         System.out.printf((MSG_VERIFICA_CF) + "%n", CFFILE);
-        codici_tot = Xml.leggiCodiceFiscale(CFFILE, codici); //3.1 leggere il file xml di CF e salvare in un array di CF solo quelli corretti. salvataggio del numero totale di CF del file
+        Xml.leggiCodiceFiscale(CFFILE, codici, codici_invalidi); //3.1 leggere il file xml di CF e salvare in un array di CF quelli corretti e in un altro quelli sbagliati
 
-        codici_spaiati = Persona.confrontoCodici(persone, codici); //3.2 verifica della presenza dei CF delle persone con quelli dell' ArrayList di CF. Salvataggio del numero di CF spaiati
+        Persona.confrontoCodici(persone, codici, codici_spaiati); //3.2 verifica della presenza dei CF delle persone con quelli dell' ArrayList di CF. Salvataggio dei CF spaiati
 
         System.out.printf((MSG_SCRITTURA) + "%n", SCRITTURAFILE);
-        //scriviPersone(SCRITTURRAFILE, persone, codici_tot - codici.size(), codici_spaiati); //4. scrittura del file xml
+        Xml.scriviPersone(SCRITTURAFILE, persone, codici_invalidi, codici_spaiati); //4. scrittura del file xml
 
         //codiceFiscale c = new codiceFiscale("GCCSLD65T04D583R");
         //System.out.println(c.validitàCodice());
@@ -48,9 +47,7 @@ public class Main {
 
         System.out.println(persone.size());
         System.out.println(codici.size());
-        System.out.println(codici_tot);
-        System.out.println(codici_spaiati);
-
-
+        System.out.println(codici_invalidi.size());
+        System.out.println(codici_spaiati.size());
     }
 }

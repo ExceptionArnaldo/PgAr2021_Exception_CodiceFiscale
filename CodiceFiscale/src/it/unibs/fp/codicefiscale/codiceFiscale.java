@@ -125,8 +125,6 @@ public class codiceFiscale {
 
     @Override
     public String toString() {
-        return "codiceFiscale{" +
-                "cod_fis='" + cod_fis + '\'' +
-                '}';
+        return cod_fis;
     }
 }

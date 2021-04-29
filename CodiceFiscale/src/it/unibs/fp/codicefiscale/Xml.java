@@ -2,6 +2,7 @@ package it.unibs.fp.codicefiscale;
 
 import javax.xml.stream.*;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class Xml {
@@ -55,50 +56,98 @@ public class Xml {
         }
     }
 
-    /*public static void scriviPersone(String nome_file, ArrayList<Persona> persone, invalidi, spaiati){
+    public static void scriviPersone(String nome_file, ArrayList<Persona> persone, ArrayList<codiceFiscale> codici_invalidi, ArrayList<codiceFiscale> codici_spaiati) {
+
         XMLOutputFactory xmlof = null;
         XMLStreamWriter xmlw = null;
-        String[] check_persone = {}; // esempio di dati da scrivere
-        try { // blocco try per raccogliere eccezioni
-        xmlw.writeStartElement("output"); // scrittura del tag radice output
-        xmlw.writeStartElement("persone");
-        xmlw.writeStartElement("numero");
-        for (int i = 0; i < check_persone.length; i++) {
-            xmlw.writeStartElement("persona"); // scrittura del tag persona...
-            xmlw.writeAttribute("ID", Integer.toString(i)); // ...con attributo id...
-            xmlw.writeStartElement("nome");
-            xmlw.writeCharacters(persone.getNome()); // ...e content dato
-            xmlw.writeEndElement();
-            xmlw.writeStartElement("cognome");
-            xmlw.writeCharacters(persone.getCognome());
-            xmlw.writeEndElement();
-            xmlw.writeStartElement("sesso");
-            xmlw.writeCharacters(persone.getSesso());
-            xmlw.writeEndElement();
-            xmlw.writeStartElement("comune_nascita");
-            xmlw.writeCharacters(persone.getComune());
-            xmlw.writeEndElement();
-            xmlw.writeStartElement("data_nascita");
-            xmlw.writeCharacters(persone.getData());
-            xmlw.writeEndElement();
-            xmlw.writeStartElement("codice_fiscale");
-            xmlw.writeCharacters(persone.getCF());
-            xmlw.writeEndElement();
-            xmlw.writeEndElement(); // chiusura di </persona>
-        }
-        xmlw.writeStartElement("codici");
-        xmlw.writeAttribute("invalidi", invalidi);
-        xmlw.writeAttribute("spaiati", spaiati);
-        xmlw.writeEndElement();
 
-        xmlw.writeEndElement(); // chiusura di </output>
-        xmlw.writeEndDocument(); // scrittura della fine del documento
-        xmlw.flush(); // svuota il buffer e procede alla scrittura
-        xmlw.close(); // chiusura del documento e delle risorse impiegate
-    } catch (Exception e) { // se c’è un errore viene eseguita questa parte
+        try { // blocco try per raccogliere eccezioni
+            xmlof = XMLOutputFactory.newInstance();
+            xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(nome_file), "utf-8");
+            xmlw.writeStartDocument("utf-8", "1.0");
+
+            xmlw.writeStartElement("output"); // scrittura del tag radice output
+            xmlw.writeStartElement("persone");
+            xmlw.writeAttribute("numero", Integer.toString(persone.size()));
+            //xmlw.writeEndElement();
+
+            for (int i = 0; i < persone.size(); i++) {
+                stampaPersone(xmlw, persone, i);
+            }
+            xmlw.writeEndElement(); // chiusura di </persone>
+
+            xmlw.writeStartElement("codici"); // scrittura del tag <codici>
+
+            /*xmlw.writeStartElement("invalidi"); // scrittura del tag <invalidi>
+            xmlw.writeAttribute("numero", Integer.toString(invalidi)); // attributo numero invalidi
+
+            for (int i = 0; i < tot_invalidi.size(); i++) {
+                xmlw.writeStartElement("codice");
+                xmlw.writeCharacters(tot_invalidi.get(i).getCodice_fiscale());
+                xmlw.writeEndElement();
+            }
+
+            xmlw.writeEndElement(); // chiusura di </invalidi>
+
+            xmlw.writeStartElement("spaiati"); // scrittura del tag <spaiati>
+            xmlw.writeAttribute("numero", Integer.toString(spaiati)); // attributo numero spaiati
+            //ciclo for
+            xmlw.writeEndElement(); // chiusura di </spaiati>
+
+             */
+            stampaCodici(xmlw, "invalidi", codici_invalidi);
+            stampaCodici(xmlw, "spaiati", codici_spaiati);
+
+            xmlw.writeEndElement(); // chiusura di </codici>
+
+            xmlw.writeEndElement(); // chiusura di </output>
+            xmlw.writeEndDocument(); // scrittura della fine del documento
+            xmlw.flush(); // svuota il buffer e procede alla scrittura
+            xmlw.close(); // chiusura del documento e delle risorse impiegate
+        } catch (Exception e) { // se c’è un errore viene eseguita questa parte
             System.out.println("Errore nella scrittura");
+            System.out.println(e.getMessage());
+        }
     }
-    }*/
+
+    private static void stampaCodici(XMLStreamWriter xmlw, String tag, ArrayList<codiceFiscale> codici) throws XMLStreamException {
+
+        xmlw.writeStartElement(tag); // scrittura del tag <...>
+        xmlw.writeAttribute("numero", Integer.toString(codici.size())); // attributo numero
+
+        for (int i = 0; i < codici.size(); i++) {  // scrittura tutti CF
+            xmlw.writeStartElement("codice");
+            xmlw.writeCharacters(codici.get(i).toString());
+            xmlw.writeEndElement();
+        }
+
+        xmlw.writeEndElement(); // chiusura di </...>
+    }
+
+    private static void stampaPersone(XMLStreamWriter xmlw, ArrayList<Persona> persone, int i) throws XMLStreamException {
+
+        xmlw.writeStartElement("persona"); // scrittura del tag <persona>
+        xmlw.writeAttribute("ID", Integer.toString(i)); // attributo id
+        xmlw.writeStartElement("nome"); // scrittura del tag <nome>
+        xmlw.writeCharacters(persone.get(i).getNome()); // nome
+        xmlw.writeEndElement(); // chiusura di </nome>
+        xmlw.writeStartElement("cognome"); // scrittura del tag <cognome>
+        xmlw.writeCharacters(persone.get(i).getCognome()); // cognome
+        xmlw.writeEndElement(); // chiusura di </cognome>
+        xmlw.writeStartElement("sesso"); // scrittura del tag <sesso>
+        xmlw.writeCharacters(persone.get(i).getSesso()); // sesso
+        xmlw.writeEndElement(); // chiusura di </sesso>
+        xmlw.writeStartElement("comune_nascita"); // scrittura del tag <comune_nascita>
+        xmlw.writeCharacters(persone.get(i).getComune_nascita()); //comune_nascita
+        xmlw.writeEndElement(); // chiusura di </comune_nascita>
+        xmlw.writeStartElement("data_nascita"); // scrittura del tag <data_nascita>
+        xmlw.writeCharacters(persone.get(i).getData_nascita()); // data_nascita
+        xmlw.writeEndElement(); // chiusura di </data_nascita>
+        xmlw.writeStartElement("codice_fiscale"); // scrittura del tag <codice_fiscale>
+        xmlw.writeCharacters(persone.get(i).getCodice_fiscale()); // codice_fiscale
+        xmlw.writeEndElement(); // chiusura di </codice_fiscale>
+        xmlw.writeEndElement(); // chiusura di </persona>
+    }
 
     //prende il comune di nascita della persona e restituisce il relativo codice se trovato nel file xml
     public static String leggiComune(String nome_file, String comune) {
@@ -134,7 +183,7 @@ public class Xml {
     }
 
     //legge xml e riempie un ArrayList di codici fiscali se questi risultano corretti. Restituisce il numero totale di codici controllati
-    public static int leggiCodiceFiscale(String nome_file, ArrayList<codiceFiscale> codici) {
+    public static void leggiCodiceFiscale(String nome_file, ArrayList<codiceFiscale> codici_corretti, ArrayList<codiceFiscale> codici_sbagliati) {
 
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlr = null;
@@ -158,8 +207,10 @@ public class Xml {
                         if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) {
                             if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
                                 cod_fis = xmlr.getText();
-                                if (new codiceFiscale(cod_fis).validitaCodice()) //crea codice fiscale e verifica se e' corretto
-                                    codici.add(new codiceFiscale(cod_fis)); //se corretto lo aggiunge all' ArrayList
+                                if (new codiceFiscale(cod_fis).validitaCodice()) // crea codice fiscale e verifica se e' corretto
+                                    codici_corretti.add(new codiceFiscale(cod_fis)); // se corretto lo aggiunge all'ArrayList CF corretti
+                                else
+                                    codici_sbagliati.add(new codiceFiscale(cod_fis)); // se sbagliato lo aggiunge all'ArrayList CF sbagliati
                             }
                         }
                         break;
@@ -170,6 +221,5 @@ public class Xml {
             System.out.println("Errore nell'inizializzazione del reader:");
             System.out.println(e.getMessage());
         }
-        return codici_tot;
     }
 }

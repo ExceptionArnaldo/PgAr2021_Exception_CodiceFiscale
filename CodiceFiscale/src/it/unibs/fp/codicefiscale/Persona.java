@@ -142,7 +142,7 @@ public class Persona {
     }
 
     //metodo che prende in input un array di persone(considerando solo i loro codici fiscali) e uno di codici. Restituisce quanti CF del secondo array non sono presenti nelle persone
-    public static int confrontoCodici(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici) {
+    public static void confrontoCodici(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici, ArrayList<codiceFiscale> codici_spaiati) {
         int j;
         int conta_assenti = 0;
 
@@ -152,11 +152,11 @@ public class Persona {
                     break;
             }
             if (j == codici.size()) { //se sono stati passasti tutti i CF per una persona allora il suo CF non e' presente
+                codici_spaiati.add(new codiceFiscale(persone.get(i).codice_fiscale.getCod_fis())); // salvataggio CF spaiato
                 persone.get(i).codice_fiscale.setCod_fis("ASSENTE"); //il CF della persona diventa ASSENTE
                 conta_assenti++; //conta quanti CF spaiati ci sono
             }
         }
-        return conta_assenti;
     }
 
     public String getNome() {
@@ -197,6 +197,14 @@ public class Persona {
 
     public void setData_nascita(String data_nascita) {
         this.data_nascita = data_nascita;
+    }
+
+    public String getCodice_fiscale() {
+        return codice_fiscale.toString();
+    }
+
+    public void setCodice_fiscale(codiceFiscale codice_fiscale) {
+        this.codice_fiscale = codice_fiscale;
     }
 
     @Override
