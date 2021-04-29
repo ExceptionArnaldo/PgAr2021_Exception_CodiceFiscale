@@ -28,6 +28,7 @@ public class Persona {
         this.codice_fiscale = codice_fiscale;
     }
 
+    // metodo per generare il codice fiscale
     public void genera_codice_fiscale() {
 
         StringBuffer codice_fiscale_temp = new StringBuffer();
@@ -42,6 +43,7 @@ public class Persona {
         this.codice_fiscale = new codiceFiscale(codice_fiscale_temp.toString());
     }
 
+    //restituisce il codice del cognome
     public String codice_cognome() {
         String codice_fiscale_temp;
         String vocali = "";
@@ -50,7 +52,7 @@ public class Persona {
 
         String cognome_temp = cognome.toUpperCase();
 
-        for (int i = 0; i < cognome_temp.length(); i++) {
+        for (int i = 0; i < cognome_temp.length(); i++) {   // divide le consonanti e vocali
             if (cognome_temp.charAt(i) == 'A' || cognome_temp.charAt(i) == 'E' || cognome_temp.charAt(i) == 'I' || cognome_temp.charAt(i) == 'O' || cognome_temp.charAt(i) == 'U') {
                 vocali += cognome_temp.charAt(i);
             } else {
@@ -58,11 +60,11 @@ public class Persona {
             }
         }
 
-        caratteri = consonanti + vocali;
+        caratteri = consonanti + vocali; // mette insieme le vocali ai consonanti
 
-        if (caratteri.length() >= 3) {
+        if (caratteri.length() >= 3) {  // se è più lungo di 3 allora estrae i primi 3 lettere
             codice_fiscale_temp = caratteri.substring(0, 3);
-        } else {
+        } else {    // se la lunghezza è meno di tre aggiunge i X
             codice_fiscale_temp = caratteri;
             while (codice_fiscale_temp.length() != 3) {
                 codice_fiscale_temp += X;
@@ -72,6 +74,7 @@ public class Persona {
         return codice_fiscale_temp;
     }
 
+    //restituisce il codice del nome
     public String codice_nome() {
         String codice_fiscale_temp;
         String vocali = "";
@@ -80,7 +83,7 @@ public class Persona {
 
         String nome_temp = nome.toUpperCase();
 
-        for (int i = 0; i < nome_temp.length(); i++) {
+        for (int i = 0; i < nome_temp.length(); i++) {  // divide le consonanti e vocali
             if (nome_temp.charAt(i) == 'A' || nome_temp.charAt(i) == 'E' || nome_temp.charAt(i) == 'I' || nome_temp.charAt(i) == 'O' || nome_temp.charAt(i) == 'U') {
                 vocali += nome_temp.charAt(i);
             } else {
@@ -88,13 +91,13 @@ public class Persona {
             }
         }
 
-        if (consonanti.length() >= 4) {
+        if (consonanti.length() >= 4) { //se i consonanti sono più di 4 allora estrae il primo, terzo e quarto
             codice_fiscale_temp = consonanti.charAt(0) + consonanti.substring(2, 4);
         } else {
             caratteri = consonanti + vocali;
             if (caratteri.length() >= 3) {
                 codice_fiscale_temp = caratteri.substring(0, 3);
-            } else {
+            } else { // aggiunge i X
                 codice_fiscale_temp = caratteri;
                 while (codice_fiscale_temp.length() != 3) {
                     codice_fiscale_temp += X;

@@ -64,12 +64,11 @@ public class codiceFiscale {
         return (ELENCO_PARI[(somma % 26) + 10]);
     }
 
-
     public boolean validitaCodice() { //controlla se il CF e' valido
 
         boolean validita = true;
 
-        for (int i = 0; i < cod_fis.length(); i++) { //controllo posizioni corrette lettere e numeri
+        for (int i = 0; i < cod_fis.length(); i++) { //controllo posizioni corrette lettere, numeri e casi vari
             if (i < 6) validita = controlloLettere(i);
             else if (i == 6 || i == 7) validita = controlloNumeri(i);
             else if (i == 8) validita = controlloLettere(i);
@@ -83,6 +82,7 @@ public class codiceFiscale {
         return validita;
     }
 
+    // controlla se è un numero
     public boolean controlloNumeri(int pos) {
         if (cod_fis.charAt(pos) >= '0' && cod_fis.charAt(pos) <= '9') {
             if (pos != 10) return true; //se il nunmero corrisponde al giorno di nascita serve un ulteriore controllo
@@ -92,6 +92,7 @@ public class codiceFiscale {
         } else return false;
     }
 
+    // controlla se è una lettera
     public boolean controlloLettere(int pos) {
         if (cod_fis.charAt(pos) >= 'A' && cod_fis.charAt(pos) <= 'Z') {
 
@@ -104,6 +105,7 @@ public class codiceFiscale {
         } else return false;
     }
 
+    // controlla il mese se è un carattere ammessibile
     public boolean controlloMese(int pos) {
         for (int i = 0; i < CODICE_MESE.length; i++) {
             if (cod_fis.charAt(pos) == CODICE_MESE[i]) return true;
@@ -112,6 +114,7 @@ public class codiceFiscale {
         return false;
     }
 
+    // controlla il giorno
     public boolean controlloGiorno(int giorno) {
         for (int i = 0; i < CODICE_MESE.length; i++) {
             if (cod_fis.charAt(8) == CODICE_MESE[i]) {
@@ -124,12 +127,14 @@ public class codiceFiscale {
         return false;
     }
 
+    // controlla l'ultima lettera del codice fiscale
     public boolean controlloUltimaLettera(char ultimaLettera) {
         if (ultimaLettera == cifraControllo(cod_fis.substring(0, 15))) return true;
         else return false;
     }
 
-    public boolean controlloNomeCognome(String nome){ // metodo per verificare la validità del nome/cognome cioè dopo una vocale non possono esserci consonanti se non la X
+    // metodo per verificare la validità del nome/cognome cioè dopo una vocale non possono esserci consonanti se non la X
+    public boolean controlloNomeCognome(String nome){
 
         boolean vocale = false;
 
@@ -141,7 +146,8 @@ public class codiceFiscale {
         return true;
     }
 
-    public boolean controlloVocale(char lettera){ // metodo per verificare se la lettera è una vocale
+    // metodo per verificare se la lettera è una vocale
+    public boolean controlloVocale(char lettera){
         for(int i = 0; i < VOCALI.length; i++){
             if(lettera == VOCALI[i]) return true;
         }
