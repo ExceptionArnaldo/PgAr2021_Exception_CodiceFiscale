@@ -126,6 +126,7 @@ public class Persona {
         //estrazione del giorno
         if (sesso.equals(FEMMINA)) {
             giorno = giorno + 40;
+            codice_fiscale_temp += giorno;
         } else {
             if (giorno > 10) {
                 codice_fiscale_temp += giorno;
