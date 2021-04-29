@@ -68,7 +68,7 @@ public class codiceFiscale {
 
     public boolean validitaCodice() { //controlla se il CF e' valido
 
-        boolean validita = true;
+        boolean validita = false;
 
         if (cod_fis.length() == 16) {
 
