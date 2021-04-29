@@ -1,7 +1,5 @@
 package it.unibs.fp.codicefiscale;
 
-import java.util.ArrayList;
-
 public class codiceFiscale {
 
     private final static char[] ELENCO_PARI = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B',
@@ -159,28 +157,6 @@ public class codiceFiscale {
         }
 
         return false;
-    }
-
-    public void confrontoCodice(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici_spaiati) {
-
-        boolean trovato = false;
-        codiceFiscale spaiato = null;
-        int conta_spaiati = 0;
-
-        for (int i = 0; i < persone.size(); i++) {
-            if (persone.get(i).getCodice_fiscale().equals(cod_fis)) {
-                trovato = true;
-                break;
-            }
-
-            if (!trovato) {
-                codici_spaiati.add(new codiceFiscale(cod_fis));
-                persone.get(i).setCodice_fiscale(new codiceFiscale("ASSENTE"));
-                conta_spaiati++;
-            }
-
-        }
-
     }
 
     @Override

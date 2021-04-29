@@ -146,7 +146,7 @@ public class Persona {
     }
 
     //metodo che prende in input un array di persone(considerando solo i loro codici fiscali) e uno di codici. Scrive ASSENTE se non trova corrispondenza
-    public static void confrontoCodici(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici, ArrayList<codiceFiscale> codici_spaiati) {
+    public static void controlloAssenti(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici) {
         int j;
 
         for (int i = 0; i < persone.size(); i++) { //per ogni persona si controllano tutti i CF
@@ -156,6 +156,20 @@ public class Persona {
             }
             if (j == codici.size()) //se sono stati passasti tutti i CF per una persona allora il suo CF non e' presente
                 persone.get(i).codice_fiscale.setCod_fis("ASSENTE"); //il CF della persona diventa ASSENTE
+        }
+    }
+
+    public static void confrontoCodice(ArrayList<codiceFiscale> codici_validi, ArrayList<Persona> persone, ArrayList<codiceFiscale> codici_spaiati) {
+
+        int j;
+
+        for (int i = 0; i < codici_validi.size(); i++) { //per ogni CF si controllano tutte le persone
+            for (j = 0; j < persone.size(); j++) {
+                if (persone.get(j).getCodice_fiscale().equals(codici_validi.get(i).getCod_fis())) //se il CF e' presente dell'array di persone si passa al CF successivo
+                    break;
+            }
+            if (j == persone.size()) //se sono state passaste tutte le persone per un CF allora il suo CF non e' presente
+                codici_spaiati.add(codici_validi.get(i)); //il CF viene salvato in un arraylist di codici spaiati
         }
     }
 

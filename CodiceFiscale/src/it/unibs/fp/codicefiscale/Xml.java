@@ -186,15 +186,15 @@ public class Xml {
 
             while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
                 // switch sul tipo di evento
-                    if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) {
-                        if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
-                            cod_fis = xmlr.getText();
-                            if (new codiceFiscale(cod_fis).validitaCodice()) // crea codice fiscale e verifica se e' corretto
-                                codici_corretti.add(new codiceFiscale(cod_fis)); // se corretto lo aggiunge all'ArrayList CF corretti
-                            else
-                                codici_sbagliati.add(new codiceFiscale(cod_fis)); // se sbagliato lo aggiunge all'ArrayList CF sbagliati
-                        }
+                if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) {
+                    if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
+                        cod_fis = xmlr.getText();
+                        if (new codiceFiscale(cod_fis).validitaCodice()) // crea codice fiscale e verifica se e' corretto
+                            codici_corretti.add(new codiceFiscale(cod_fis)); // se corretto lo aggiunge all'ArrayList CF corretti
+                        else
+                            codici_sbagliati.add(new codiceFiscale(cod_fis)); // se sbagliato lo aggiunge all'ArrayList CF sbagliati
                     }
+                }
                 xmlr.next();
             }
         } catch (Exception e) {
