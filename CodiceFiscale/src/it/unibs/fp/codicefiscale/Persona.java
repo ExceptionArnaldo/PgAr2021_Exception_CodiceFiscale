@@ -29,14 +29,14 @@ public class Persona {
     }
 
     // metodo per generare il codice fiscale
-    public void genera_codice_fiscale() {
+    public void generaCodiceFiscale() {
 
         StringBuffer codice_fiscale_temp = new StringBuffer();
 
-        codice_fiscale_temp.append(codice_cognome());
-        codice_fiscale_temp.append(codice_nome());
-        codice_fiscale_temp.append(codice_data_nascita());
-        codice_fiscale_temp.append(codice_comune());
+        codice_fiscale_temp.append(codiceCognome());
+        codice_fiscale_temp.append(codiceNome());
+        codice_fiscale_temp.append(codiceDataNascita());
+        codice_fiscale_temp.append(codiceComune());
 
         codice_fiscale_temp.append(codice_fiscale.cifraControllo(codice_fiscale_temp.toString()));
 
@@ -44,7 +44,7 @@ public class Persona {
     }
 
     //restituisce il codice del cognome
-    public String codice_cognome() {
+    public String codiceCognome() {
         String codice_fiscale_temp;
         String vocali = "";
         String consonanti = "";
@@ -75,7 +75,7 @@ public class Persona {
     }
 
     //restituisce il codice del nome
-    public String codice_nome() {
+    public String codiceNome() {
         String codice_fiscale_temp;
         String vocali = "";
         String consonanti = "";
@@ -109,7 +109,7 @@ public class Persona {
     }
 
     //restituisce il codice della data di nascita
-    public String codice_data_nascita() {
+    public String codiceDataNascita() {
 
         String codice_fiscale_temp = "";
 
@@ -138,7 +138,7 @@ public class Persona {
     }
 
     //restituisce il codice del comune di nascita
-    public String codice_comune() {
+    public String codiceComune() {
 
         return Xml.leggiComune(COMUNEFILE, comune_nascita.toUpperCase());
 

@@ -24,7 +24,7 @@ public class Main {
 
         System.out.println(MSG_GEN_CODICI);
         for (int i = 0; i < persone.size(); i++) { //2. generare i CF delle persone
-            persone.get(i).genera_codice_fiscale();
+            persone.get(i).generaCodiceFiscale();
         }
 
         System.out.printf((MSG_VERIFICA_CF) + "%n", CF_FILE);
