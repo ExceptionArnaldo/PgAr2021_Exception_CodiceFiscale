@@ -12,7 +12,7 @@ public class Main {
     private final static String MSG_VERIFICA_CF = "Verifica validita' codici fiscali del file %s ...";
     private final static String MSG_SCRITTURA = "Scrittura del file %s ...";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         ArrayList<Persona> persone = new ArrayList<>();
         ArrayList<codiceFiscale> codici = new ArrayList<>();
@@ -38,6 +38,8 @@ public class Main {
 
         System.out.printf((MSG_SCRITTURA) + "%n", SCRITTURAFILE);
         Xml.scriviPersone(SCRITTURAFILE, persone, codici_invalidi, codici_spaiati); //4. scrittura del file xml
+
+        Xml.formatXMLFile(SCRITTURAFILE);
 
         //codiceFiscale c = new codiceFiscale("GCCSLD65T04D583R");
         //System.out.println(c.validitàCodice());

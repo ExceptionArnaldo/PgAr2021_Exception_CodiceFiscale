@@ -1,9 +1,22 @@
 package it.unibs.fp.codicefiscale;
 
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class Xml {
 
@@ -102,6 +115,26 @@ public class Xml {
 
             xmlw.writeEndElement(); // chiusura di </output>
             xmlw.writeEndDocument(); // scrittura della fine del documento
+
+            /*Transformer t = TransformerFactory.newInstance().newTransformer();
+            t.setOutputProperty(OutputKeys.INDENT, "yes");
+            t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            ByteArrayOutputStream s = new ByteArrayOutputStream();
+            t.transform(new DOMSource(xmlw),new StreamResult(s));
+
+             */
+            /*TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer t = tf.newTransformer();
+            t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            t.setOutputProperty(OutputKeys.INDENT, "yes");
+            Source source = new DOMSource(xmlw);
+            Result result = new StreamResult(new File("codiciPersone.xml"));
+            t.transform(source, result);
+
+             */
+
+            //formatXMLFile("codiciPersone.xml");
+
             xmlw.flush(); // svuota il buffer e procede alla scrittura
             xmlw.close(); // chiusura del documento e delle risorse impiegate
         } catch (Exception e) { // se c’è un errore viene eseguita questa parte
@@ -221,5 +254,21 @@ public class Xml {
             System.out.println("Errore nell'inizializzazione del reader:");
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void formatXMLFile(String file) throws Exception{
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new InputSource(new InputStreamReader(new FileInputStream(file))));
+
+        Transformer xformer = TransformerFactory.newInstance().newTransformer();
+        xformer.setOutputProperty(OutputKeys.METHOD, "xml");
+        xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        xformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        Source source = new DOMSource(document);
+        Result result = new StreamResult(new File(file));
+        xformer.transform(source, result);
     }
 }
