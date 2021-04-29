@@ -14,6 +14,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+        codiceFiscale c = new codiceFiscale("GAIDNL55D010F367B");
+        System.out.println(c.validitaCodice());
+
         ArrayList<Persona> persone = new ArrayList<>();
         ArrayList<codiceFiscale> codici_validi = new ArrayList<>();
         ArrayList<codiceFiscale> codici_invalidi = new ArrayList<>();
