@@ -30,10 +30,20 @@ public class Main {
             persone.get(i).generaCodiceFiscale();
         }
 
+        /*for(int i = 0; i < persone.size(); i++){
+            persone.get(i).getCod_fis().confrontoCodice(codici_validi);
+        }*/
+
         System.out.printf((MSG_VERIFICA_CF) + "%n", CF_FILE);
         Xml.leggiCodiceFiscale(CF_FILE, codici_validi, codici_invalidi); //3.1 leggere il file xml di CF e salvare in un array di CF quelli corretti e in un altro quelli sbagliati
 
         Persona.confrontoCodici(persone, codici_validi, codici_spaiati); //3.2 verifica della presenza dei CF delle persone con quelli dell' ArrayList di CF. Salvataggio dei CF spaiati
+
+        /*for(int i = 0; i < codici_validi.size(); i++){
+            codici_validi.get(i).confrontoCodice(persone, codici_spaiati);
+        }*/
+
+        System.out.println(codici_spaiati.size());
 
         System.out.printf((MSG_SCRITTURA) + "%n", SCRITTURA_FILE);
         Xml.scriviPersone(SCRITTURA_FILE, persone, codici_invalidi, codici_spaiati); //4. scrittura del file xml

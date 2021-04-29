@@ -510,7 +510,7 @@
       <sesso>M</sesso>
       <comune_nascita>MONTJOVET</comune_nascita>
       <data_nascita>1955-04-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>GAIDNL55D10F367A</codice_fiscale>
     </persona>
     <persona ID="64">
       <nome>BARBARA</nome>
@@ -614,7 +614,7 @@
       <sesso>M</sesso>
       <comune_nascita>SANT'ANTIOCO</comune_nascita>
       <data_nascita>1974-04-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>MNCGLC74D10I294F</codice_fiscale>
     </persona>
     <persona ID="77">
       <nome>LUCIANO</nome>
@@ -822,7 +822,7 @@
       <sesso>M</sesso>
       <comune_nascita>CASTENASO</comune_nascita>
       <data_nascita>1963-09-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>CLSGCR63P10C292W</codice_fiscale>
     </persona>
     <persona ID="103">
       <nome>VALERIA</nome>
@@ -1270,7 +1270,7 @@
       <sesso>M</sesso>
       <comune_nascita>CASTELLO TESINO</comune_nascita>
       <data_nascita>1994-07-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>LLNRFL94L10C194X</codice_fiscale>
     </persona>
     <persona ID="159">
       <nome>JACOPO</nome>
@@ -1302,7 +1302,7 @@
       <sesso>M</sesso>
       <comune_nascita>ROVETTA</comune_nascita>
       <data_nascita>1951-02-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>RCCCGR51B10H615X</codice_fiscale>
     </persona>
     <persona ID="163">
       <nome>SONIA</nome>
@@ -2830,7 +2830,7 @@
       <sesso>M</sesso>
       <comune_nascita>GENONI</comune_nascita>
       <data_nascita>2009-01-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>RGGNIO09A10D968H</codice_fiscale>
     </persona>
     <persona ID="354">
       <nome>CARMELINA</nome>
@@ -3150,7 +3150,7 @@
       <sesso>M</sesso>
       <comune_nascita>MALESCO</comune_nascita>
       <data_nascita>2011-03-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>FRIPRN11C10E853Y</codice_fiscale>
     </persona>
     <persona ID="394">
       <nome>LIVIA</nome>
@@ -4726,7 +4726,7 @@
       <sesso>M</sesso>
       <comune_nascita>MARANO PRINCIPATO</comune_nascita>
       <data_nascita>1999-06-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>LAOMNL99H10E915Q</codice_fiscale>
     </persona>
     <persona ID="591">
       <nome>ABDELLAH</nome>
@@ -5678,7 +5678,7 @@
       <sesso>M</sesso>
       <comune_nascita>FIVIZZANO</comune_nascita>
       <data_nascita>1919-07-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>TRRLZM19L10D629L</codice_fiscale>
     </persona>
     <persona ID="710">
       <nome>ALBINO</nome>
@@ -5710,7 +5710,7 @@
       <sesso>M</sesso>
       <comune_nascita>BULZI</comune_nascita>
       <data_nascita>1976-02-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>CRDBRM76B10B265W</codice_fiscale>
     </persona>
     <persona ID="714">
       <nome>CHRISTOPHER</nome>
@@ -7150,7 +7150,7 @@
       <sesso>M</sesso>
       <comune_nascita>FUCECCHIO</comune_nascita>
       <data_nascita>1996-01-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>MCNNLN96A10D815G</codice_fiscale>
     </persona>
     <persona ID="894">
       <nome>LUDOVICO</nome>
@@ -7638,7 +7638,7 @@
       <sesso>M</sesso>
       <comune_nascita>GIFFONI SEI CASALI</comune_nascita>
       <data_nascita>1984-09-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>MTNBLG84P10E026O</codice_fiscale>
     </persona>
     <persona ID="955">
       <nome>YASSIN</nome>
@@ -7726,7 +7726,7 @@
       <sesso>M</sesso>
       <comune_nascita>GRAVINA DI CATANIA</comune_nascita>
       <data_nascita>1940-09-10</data_nascita>
-      <codice_fiscale>ASSENTE</codice_fiscale>
+      <codice_fiscale>CRAMRO40P10E156R</codice_fiscale>
     </persona>
     <persona ID="966">
       <nome>BILAL</nome>
@@ -8020,51 +8020,38 @@
       <codice>OUXDVS81M23L291N</codice>
       <codice>FSTPLA98M01B157A</codice>
     </invalidi>
-    <spaiati numero="45">
+    <spaiati numero="32">
       <codice>FSSGNN37R25A463L</codice>
       <codice>NSNSVT25B06E630X</codice>
       <codice>CRBSLV09T57G076K</codice>
       <codice>BRODNC49P27B377V</codice>
-      <codice>GAIDNL55D010F367B</codice>
-      <codice>MNCGLC74D010I294S</codice>
       <codice>MRNFLV21T60F206H</codice>
       <codice>CPRLBT73A48D291P</codice>
-      <codice>CLSGCR63P010C292D</codice>
       <codice>MCGNNT59P64G602X</codice>
       <codice>CMRLST73D54C207C</codice>
       <codice>LNFCTR33M58L535Z</codice>
       <codice>CNNLLL20P60E581A</codice>
-      <codice>LLNRFL94L010C194G</codice>
-      <codice>RCCCGR51B010H615N</codice>
       <codice>RSSLGO19T51D767T</codice>
       <codice>FNTNTN19A17B531V</codice>
       <codice>LZEMRO58B13G325Z</codice>
       <codice>NVNGCM52S14E597I</codice>
-      <codice>RGGNIO09A010D968V</codice>
       <codice>LRCSMN03A06D988Q</codice>
-      <codice>FRIPRN11C010E853U</codice>
       <codice>MDEMHL13T07C608K</codice>
       <codice>DTAVTR21S05A038D</codice>
       <codice>LZRFMR07S24A617L</codice>
       <codice>SRGLRD96B21I302L</codice>
-      <codice>LAOMNL99H010E915Y</codice>
       <codice>CVTDVS81M23L291N</codice>
       <codice>PLRLRI80H20H938I</codice>
       <codice>CTTCTN94D16I052E</codice>
       <codice>SCCMLN33D42B278C</codice>
-      <codice>TRRLZM19L010D629V</codice>
-      <codice>CRDBRM76B010B265R</codice>
       <codice>DRVGMN78L54C057J</codice>
       <codice>CNTNLS30M18F593Q</codice>
       <codice>BRRMNI92T45E798M</codice>
       <codice>PZZMRL75T50D330I</codice>
-      <codice>MCNNLN96A010D815O</codice>
       <codice>FRISND95L71C580V</codice>
       <codice>SMNLJN06S62L986S</codice>
       <codice>NKLKLD52B69B865C</codice>
       <codice>PRZNSA09P23H714U</codice>
-      <codice>MTNBLG84P010E026K</codice>
-      <codice>CRAMRO40P010E156U</codice>
       <codice>FRNBLD72B29G362U</codice>
     </spaiati>
   </codici>
