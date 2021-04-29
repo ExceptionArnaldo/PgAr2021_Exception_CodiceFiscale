@@ -128,7 +128,7 @@ public class Persona {
             giorno = giorno + 40;
             codice_fiscale_temp += giorno;
         } else {
-            if (giorno > 10) {
+            if (giorno >= 10) {
                 codice_fiscale_temp += giorno;
             } else {
                 codice_fiscale_temp += "0" + giorno;
