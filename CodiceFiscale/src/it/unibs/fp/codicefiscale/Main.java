@@ -42,7 +42,7 @@ public class Main {
         System.out.printf((MSG_SCRITTURA) + "%n", SCRITTURA_FILE);
         Xml.scriviPersone(SCRITTURA_FILE, persone, codici_invalidi, codici_spaiati); //4. scrittura del file xml
 
-        Xml.formatXMLFile(SCRITTURAFILE);
+        Xml.formatXMLFile(SCRITTURA_FILE);
 
         //codiceFiscale c = new codiceFiscale("GCCSLD65T04D583R");
         //System.out.println(c.validitàCodice());
