@@ -34,6 +34,6 @@ public class Main {
 
         System.out.printf((MSG_SCRITTURA) + "%n", SCRITTURA_FILE);
         Xml.scriviPersone(SCRITTURA_FILE, persone, codici_invalidi, codici_spaiati); //4. scrittura del file xml
-        Xml.formatXMLFile(SCRITTURA_FILE);
+        Xml.formatXMLFile(SCRITTURA_FILE); //formattazione file xml
     }
 }

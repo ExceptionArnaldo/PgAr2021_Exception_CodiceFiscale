@@ -2,6 +2,7 @@ package it.unibs.fp.codicefiscale;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.*;
@@ -16,8 +17,8 @@ public class Xml {
     //legge un file xml e salva i dati delle persone in un ArrayList di tipo persona
     public static void leggiPersone(String nome_file, ArrayList<Persona> persone) {
 
-        XMLInputFactory xmlif = null;
-        XMLStreamReader xmlr = null;
+        XMLInputFactory xmlif;
+        XMLStreamReader xmlr;
 
         String nome = null;
         String cognome = null;
@@ -28,6 +29,7 @@ public class Xml {
         try {
             xmlif = XMLInputFactory.newInstance();
             xmlr = xmlif.createXMLStreamReader(nome_file, new FileInputStream(nome_file));
+
             while (xmlr.hasNext()) {
                 if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) { //interessano solo i dati relativi alle persone
                     switch (xmlr.getLocalName()) {
@@ -64,8 +66,8 @@ public class Xml {
 
     public static void scriviPersone(String nome_file, ArrayList<Persona> persone, ArrayList<codiceFiscale> codici_invalidi, ArrayList<codiceFiscale> codici_spaiati) {
 
-        XMLOutputFactory xmlof = null;
-        XMLStreamWriter xmlw = null;
+        XMLOutputFactory xmlof;
+        XMLStreamWriter xmlw;
 
         try { // blocco try per raccogliere eccezioni
             xmlof = XMLOutputFactory.newInstance();
@@ -74,7 +76,6 @@ public class Xml {
             xmlw.writeStartElement("output"); // scrittura del tag radice output
             xmlw.writeStartElement("persone");
             xmlw.writeAttribute("numero", Integer.toString(persone.size()));
-            //xmlw.writeEndElement();
 
             for (int i = 0; i < persone.size(); i++) {
                 stampaPersone(xmlw, persone, i);
@@ -141,8 +142,8 @@ public class Xml {
     //prende il comune di nascita della persona e restituisce il relativo codice se trovato nel file xml
     public static String leggiComune(String nome_file, String comune) {
 
-        XMLInputFactory xmlif = null;
-        XMLStreamReader xmlr = null;
+        XMLInputFactory xmlif;
+        XMLStreamReader xmlr;
 
         String codice = "";
 
@@ -174,10 +175,8 @@ public class Xml {
     //legge xml e riempie un ArrayList di codici fiscali se questi risultano corretti. Restituisce il numero totale di codici controllati
     public static void leggiCodiceFiscale(String nome_file, ArrayList<codiceFiscale> codici_corretti, ArrayList<codiceFiscale> codici_sbagliati) {
 
-        XMLInputFactory xmlif = null;
-        XMLStreamReader xmlr = null;
-
-        int codici_tot = 0;
+        XMLInputFactory xmlif;
+        XMLStreamReader xmlr;
 
         String cod_fis;
 
@@ -187,23 +186,15 @@ public class Xml {
 
             while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
                 // switch sul tipo di evento
-                switch (xmlr.getEventType()) {
-                    case XMLStreamConstants.START_ELEMENT: //controlla se il tag e' un codice, in caso affermativo incrementa il contatore
-                        if (xmlr.getLocalName().equals("codice"))
-                            codici_tot++;
-                        break;
-                    case XMLStreamConstants.CHARACTERS:
-                        if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) {
-                            if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
-                                cod_fis = xmlr.getText();
-                                if (new codiceFiscale(cod_fis).validitaCodice()) // crea codice fiscale e verifica se e' corretto
-                                    codici_corretti.add(new codiceFiscale(cod_fis)); // se corretto lo aggiunge all'ArrayList CF corretti
-                                else
-                                    codici_sbagliati.add(new codiceFiscale(cod_fis)); // se sbagliato lo aggiunge all'ArrayList CF sbagliati
-                            }
+                    if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) {
+                        if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
+                            cod_fis = xmlr.getText();
+                            if (new codiceFiscale(cod_fis).validitaCodice()) // crea codice fiscale e verifica se e' corretto
+                                codici_corretti.add(new codiceFiscale(cod_fis)); // se corretto lo aggiunge all'ArrayList CF corretti
+                            else
+                                codici_sbagliati.add(new codiceFiscale(cod_fis)); // se sbagliato lo aggiunge all'ArrayList CF sbagliati
                         }
-                        break;
-                }
+                    }
                 xmlr.next();
             }
         } catch (Exception e) {
@@ -212,7 +203,7 @@ public class Xml {
         }
     }
 
-    public static void formatXMLFile(String file) throws Exception{
+    public static void formatXMLFile(String file) throws Exception { //prende un xml non formattato e lo formatta
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -221,7 +212,7 @@ public class Xml {
         Transformer xformer = TransformerFactory.newInstance().newTransformer();
         xformer.setOutputProperty(OutputKeys.METHOD, "xml");
         xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        xformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        xformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
         xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         Source source = new DOMSource(document);
         Result result = new StreamResult(new File(file));
