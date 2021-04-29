@@ -12,7 +12,11 @@ public class codiceFiscale {
             10, 22, 25, 24, 23
     };
 
+    private final static char[] VOCALI = {'A', 'E', 'I', 'O', 'U'};
+
     private final static char[] CODICE_MESE = {'A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'};
+
+    private final static char X = 'X';
 
     private final static int[] GIORNI_MESE = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
@@ -60,8 +64,8 @@ public class codiceFiscale {
         return (ELENCO_PARI[(somma % 26) + 10]);
     }
 
-    //controlla se il CF e' valido
-    public boolean validitaCodice() {
+
+    public boolean validitaCodice() { //controlla se il CF e' valido
 
         boolean validita = true;
 
@@ -93,8 +97,10 @@ public class codiceFiscale {
 
             if (pos == 15) return controlloUltimaLettera(cod_fis.charAt(pos)); //verifica algoritmo ultima lettera
 
-            if (pos != 8) return true;
-            else return controlloMese(pos); //se la lettera e' il mese serve un ulteriore controllo
+            if(pos == 2 || pos == 5)  return controlloNomeCognome(cod_fis.substring(pos - 2, pos + 1)); // se è il nome o cognome va a verificare la validità
+
+            if (pos == 8) return controlloMese(pos); //se la lettera e' il mese serve un ulteriore controllo
+            else return true;
         } else return false;
     }
 
@@ -121,6 +127,26 @@ public class codiceFiscale {
     public boolean controlloUltimaLettera(char ultimaLettera) {
         if (ultimaLettera == cifraControllo(cod_fis.substring(0, 15))) return true;
         else return false;
+    }
+
+    public boolean controlloNomeCognome(String nome){ // metodo per verificare la validità del nome/cognome cioè dopo una vocale non possono esserci consonanti se non la X
+
+        boolean vocale = false;
+
+        for(int i = 0; i < 3; i++){
+            if(vocale == true && controlloVocale(nome.charAt(i)) == false && nome.charAt(i) != X) return false;
+            if(vocale == false) vocale = controlloVocale(nome.charAt(i));
+        }
+
+        return true;
+    }
+
+    public boolean controlloVocale(char lettera){ // metodo per verificare se la lettera è una vocale
+        for(int i = 0; i < VOCALI.length; i++){
+            if(lettera == VOCALI[i]) return true;
+        }
+
+        return false;
     }
 
     @Override
