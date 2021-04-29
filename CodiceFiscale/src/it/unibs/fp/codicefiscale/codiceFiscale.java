@@ -70,16 +70,19 @@ public class codiceFiscale {
 
         boolean validita = true;
 
-        for (int i = 0; i < cod_fis.length(); i++) { //controllo posizioni corrette lettere, numeri e casi vari
-            if (i < 6) validita = controlloLettere(i);
-            else if (i == 6 || i == 7) validita = controlloNumeri(i);
-            else if (i == 8) validita = controlloLettere(i);
-            else if (i == 9 || i == 10) validita = controlloNumeri(i);
-            else if (i == 11) validita = controlloLettere(i);
-            else if (i < 15) validita = controlloNumeri(i);
-            else if (i == 15) validita = controlloLettere(i);
+        if (cod_fis.length() == 16) {
 
-            if (!validita) return false;
+            for (int i = 0; i < cod_fis.length(); i++) { //controllo posizioni corrette lettere, numeri e casi vari
+                if (i < 6) validita = controlloLettere(i);
+                else if (i == 6 || i == 7) validita = controlloNumeri(i);
+                else if (i == 8) validita = controlloLettere(i);
+                else if (i == 9 || i == 10) validita = controlloNumeri(i);
+                else if (i == 11) validita = controlloLettere(i);
+                else if (i < 15) validita = controlloNumeri(i);
+                else if (i == 15) validita = controlloLettere(i);
+
+                if (!validita) return false;
+            }
         }
         return validita;
     }
@@ -158,19 +161,19 @@ public class codiceFiscale {
         return false;
     }
 
-    public void confrontoCodice(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici_spaiati){
+    public void confrontoCodice(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici_spaiati) {
 
         boolean trovato = false;
         codiceFiscale spaiato = null;
         int conta_spaiati = 0;
 
-        for(int i = 0; i < persone.size(); i++){
-                if(persone.get(i).getCodice_fiscale().equals(cod_fis)){
-                    trovato = true;
-                    break;
+        for (int i = 0; i < persone.size(); i++) {
+            if (persone.get(i).getCodice_fiscale().equals(cod_fis)) {
+                trovato = true;
+                break;
             }
 
-            if(!trovato){
+            if (!trovato) {
                 codici_spaiati.add(new codiceFiscale(cod_fis));
                 persone.get(i).setCodice_fiscale(new codiceFiscale("ASSENTE"));
                 conta_spaiati++;
