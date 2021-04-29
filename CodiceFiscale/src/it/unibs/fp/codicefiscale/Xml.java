@@ -1,22 +1,15 @@
 package it.unibs.fp.codicefiscale;
 
-
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Properties;
 
 public class Xml {
 
@@ -78,7 +71,6 @@ public class Xml {
             xmlof = XMLOutputFactory.newInstance();
             xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(nome_file), "utf-8");
             xmlw.writeStartDocument("utf-8", "1.0");
-
             xmlw.writeStartElement("output"); // scrittura del tag radice output
             xmlw.writeStartElement("persone");
             xmlw.writeAttribute("numero", Integer.toString(persone.size()));
@@ -91,23 +83,6 @@ public class Xml {
 
             xmlw.writeStartElement("codici"); // scrittura del tag <codici>
 
-            /*xmlw.writeStartElement("invalidi"); // scrittura del tag <invalidi>
-            xmlw.writeAttribute("numero", Integer.toString(invalidi)); // attributo numero invalidi
-
-            for (int i = 0; i < tot_invalidi.size(); i++) {
-                xmlw.writeStartElement("codice");
-                xmlw.writeCharacters(tot_invalidi.get(i).getCodice_fiscale());
-                xmlw.writeEndElement();
-            }
-
-            xmlw.writeEndElement(); // chiusura di </invalidi>
-
-            xmlw.writeStartElement("spaiati"); // scrittura del tag <spaiati>
-            xmlw.writeAttribute("numero", Integer.toString(spaiati)); // attributo numero spaiati
-            //ciclo for
-            xmlw.writeEndElement(); // chiusura di </spaiati>
-
-             */
             stampaCodici(xmlw, "invalidi", codici_invalidi);
             stampaCodici(xmlw, "spaiati", codici_spaiati);
 
@@ -115,25 +90,6 @@ public class Xml {
 
             xmlw.writeEndElement(); // chiusura di </output>
             xmlw.writeEndDocument(); // scrittura della fine del documento
-
-            /*Transformer t = TransformerFactory.newInstance().newTransformer();
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            ByteArrayOutputStream s = new ByteArrayOutputStream();
-            t.transform(new DOMSource(xmlw),new StreamResult(s));
-
-             */
-            /*TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer t = tf.newTransformer();
-            t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            Source source = new DOMSource(xmlw);
-            Result result = new StreamResult(new File("codiciPersone.xml"));
-            t.transform(source, result);
-
-             */
-
-            //formatXMLFile("codiciPersone.xml");
 
             xmlw.flush(); // svuota il buffer e procede alla scrittura
             xmlw.close(); // chiusura del documento e delle risorse impiegate
