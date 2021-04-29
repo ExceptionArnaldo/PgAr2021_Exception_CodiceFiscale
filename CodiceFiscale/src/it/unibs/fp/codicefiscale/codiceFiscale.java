@@ -69,21 +69,18 @@ public class codiceFiscale {
     public boolean validitaCodice() { //controlla se il CF e' valido
 
         boolean validita = true;
-        if (cod_fis.length() == 16) {
 
-            for (int i = 0; i < cod_fis.length(); i++) { //controllo posizioni corrette lettere, numeri e casi vari
-                if (i < 6) validita = controlloLettere(i);
-                else if (i == 6 || i == 7) validita = controlloNumeri(i);
-                else if (i == 8) validita = controlloLettere(i);
-                else if (i == 9 || i == 10) validita = controlloNumeri(i);
-                else if (i == 11) validita = controlloLettere(i);
-                else if (i < 15) validita = controlloNumeri(i);
-                else if (i == 15) validita = controlloLettere(i);
+        for (int i = 0; i < cod_fis.length(); i++) { //controllo posizioni corrette lettere, numeri e casi vari
+            if (i < 6) validita = controlloLettere(i);
+            else if (i == 6 || i == 7) validita = controlloNumeri(i);
+            else if (i == 8) validita = controlloLettere(i);
+            else if (i == 9 || i == 10) validita = controlloNumeri(i);
+            else if (i == 11) validita = controlloLettere(i);
+            else if (i < 15) validita = controlloNumeri(i);
+            else if (i == 15) validita = controlloLettere(i);
 
-                if (!validita) return false;
-            }
+            if (!validita) return false;
         }
-        else validita = false;
         return validita;
     }
 
@@ -145,8 +142,8 @@ public class codiceFiscale {
         boolean vocale = false;
 
         for (int i = 0; i < 3; i++) {
-            if (vocale && !controlloVocale(nome.charAt(i)) && nome.charAt(i) != X) return false;
-            if (!vocale) vocale = controlloVocale(nome.charAt(i));
+            if (vocale == true && controlloVocale(nome.charAt(i)) == false && nome.charAt(i) != X) return false;
+            if (vocale == false) vocale = controlloVocale(nome.charAt(i));
         }
 
         return true;

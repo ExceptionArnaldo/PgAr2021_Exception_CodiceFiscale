@@ -128,7 +128,7 @@ public class Persona {
             giorno = giorno + 40;
             codice_fiscale_temp += giorno;
         } else {
-            if (giorno >= 10) {
+            if (giorno > 10) {
                 codice_fiscale_temp += giorno;
             } else {
                 codice_fiscale_temp += "0" + giorno;
@@ -145,22 +145,17 @@ public class Persona {
 
     }
 
-    //metodo che prende in input un array di persone(considerando solo i loro codici fiscali) e uno di codici. Restituisce quanti CF del secondo array non sono presenti nelle persone
+    //metodo che prende in input un array di persone(considerando solo i loro codici fiscali) e uno di codici. Scrive ASSENTE se non trova corrispondenza
     public static void confrontoCodici(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici, ArrayList<codiceFiscale> codici_spaiati) {
         int j;
-        int conta_assenti = 0;
 
         for (int i = 0; i < persone.size(); i++) { //per ogni persona si controllano tutti i CF
             for (j = 0; j < codici.size(); j++) {
-                if (persone.get(i).codice_fiscale.getCod_fis().equals(codici.get(j).getCod_fis())) //se il CF della persona e' presente dell'array di CF si passa alla persona successiva
+                if (persone.get(i).getCodice_fiscale().equals(codici.get(j).getCod_fis())) //se il CF della persona e' presente dell'array di CF si passa alla persona successiva
                     break;
             }
-            if (j == codici.size()) { //se sono stati passasti tutti i CF per una persona allora il suo CF non e' presente
-                codici_spaiati.add(new codiceFiscale(persone.get(i).codice_fiscale.getCod_fis())); // salvataggio CF spaiato
-                //codici_spaiati.add(codici.get(i));
+            if (j == codici.size()) //se sono stati passasti tutti i CF per una persona allora il suo CF non e' presente
                 persone.get(i).codice_fiscale.setCod_fis("ASSENTE"); //il CF della persona diventa ASSENTE
-                conta_assenti++; //conta quanti CF spaiati ci sono
-            }
         }
     }
 
@@ -206,10 +201,6 @@ public class Persona {
 
     public String getCodice_fiscale() {
         return codice_fiscale.toString();
-    }
-
-    public codiceFiscale getCod_fis(){
-        return codice_fiscale;
     }
 
     public void setCodice_fiscale(codiceFiscale codice_fiscale) {
