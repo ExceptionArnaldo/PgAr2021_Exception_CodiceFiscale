@@ -139,8 +139,8 @@ public class codiceFiscale {
         boolean vocale = false;
 
         for(int i = 0; i < 3; i++){
-            if(vocale == true && controlloVocale(nome.charAt(i)) == false && nome.charAt(i) != X) return false;
-            if(vocale == false) vocale = controlloVocale(nome.charAt(i));
+            if(vocale && !controlloVocale(nome.charAt(i)) && nome.charAt(i) != X) return false;
+            if(!vocale) vocale = controlloVocale(nome.charAt(i));
         }
 
         return true;
