@@ -115,8 +115,7 @@ public class codiceFiscale {
 
     // controlla l'ultima lettera del codice fiscale
     public boolean controlloUltimaLettera(char ultimaLettera) {
-        if (ultimaLettera == cifraControllo(cod_fis.substring(0, 15))) return true;
-        else return false;
+        return ultimaLettera == cifraControllo(cod_fis.substring(0, 15));
     }
 
     // metodo per verificare la validità del nome/cognome cioè dopo una vocale non possono esserci consonanti se non la X

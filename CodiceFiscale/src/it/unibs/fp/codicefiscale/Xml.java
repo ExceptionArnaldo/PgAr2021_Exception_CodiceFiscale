@@ -33,23 +33,23 @@ public class Xml {
             while (xmlr.hasNext()) {
                 if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) { //interessano solo i dati relativi alle persone
                     switch (xmlr.getLocalName()) {
-                        case "nome":
+                        case Costante.NOME:
                             xmlr.next();
                             nome = xmlr.getText();
                             break;
-                        case "cognome":
+                        case Costante.COGNOME:
                             xmlr.next();
                             cognome = xmlr.getText();
                             break;
-                        case "sesso":
+                        case Costante.SESSO:
                             xmlr.next();
                             sesso = xmlr.getText();
                             break;
-                        case "comune_nascita":
+                        case Costante.COMUNE_NASCITA:
                             xmlr.next();
                             comune_nascita = xmlr.getText();
                             break;
-                        case "data_nascita":
+                        case Costante.DATA_NASCITA:
                             xmlr.next();
                             data_nascita = xmlr.getText();
                             persone.add(new Persona(nome, cognome, sesso, comune_nascita, data_nascita, new codiceFiscale(" "))); //ottenuti tutti i valori dell'xml di una persona. Creazione Persona
@@ -71,30 +71,29 @@ public class Xml {
 
         try { // blocco try per raccogliere eccezioni
             xmlof = XMLOutputFactory.newInstance();
-            xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(nome_file), "utf-8");
-            xmlw.writeStartDocument("utf-8", "1.0");
-            xmlw.writeStartElement("output"); // scrittura del tag radice output
+            xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(nome_file), Costante.ENCODING);
+            xmlw.writeStartDocument(Costante.ENCODING, Costante.VERSION);
+            xmlw.writeStartElement(Costante.OUTPUT); // scrittura del tag radice output
 
-            xmlw.writeStartElement("persone");
-            xmlw.writeAttribute("numero", Integer.toString(persone.size()));
+            xmlw.writeStartElement(Costante.PERSONE);
+            xmlw.writeAttribute(Costante.NUMERO, Integer.toString(persone.size()));
 
             for (int i = 0; i < persone.size(); i++) {
-                //stampaPersone(xmlw, persone, i);
-                xmlw.writeStartElement("persona"); // apertura del tag <persona>
-                xmlw.writeAttribute("ID", Integer.toString(i)); // attributo id
-                scriviTag(xmlw, "nome", persone.get(i).getNome()); // scrittura del tag <nome>
-                scriviTag(xmlw, "cognome", persone.get(i).getCognome()); // scrittura del tag <cocgnome>
-                scriviTag(xmlw, "sesso", persone.get(i).getSesso()); // scrittura del tag <sesso>
-                scriviTag(xmlw, "comune_nascita", persone.get(i).getComune_nascita()); // scrittura del tag <comune_nascita>
-                scriviTag(xmlw, "data_nascita", persone.get(i).getData_nascita()); // scrittura del tag <data_nascita>
-                scriviTag(xmlw, "codice_fiscale", persone.get(i).getCodice_fiscale()); // scrittura del tag <codice_fiscale>
+                xmlw.writeStartElement(Costante.PERSONA); // apertura del tag <persona>
+                xmlw.writeAttribute(Costante.ID, Integer.toString(i)); // attributo id
+                scriviTag(xmlw, Costante.NOME, persone.get(i).getNome()); // scrittura del tag <nome>
+                scriviTag(xmlw, Costante.COGNOME, persone.get(i).getCognome()); // scrittura del tag <cognome>
+                scriviTag(xmlw, Costante.SESSO, persone.get(i).getSesso()); // scrittura del tag <sesso>
+                scriviTag(xmlw, Costante.COMUNE_NASCITA, persone.get(i).getComune_nascita()); // scrittura del tag <comune_nascita>
+                scriviTag(xmlw, Costante.DATA_NASCITA, persone.get(i).getData_nascita()); // scrittura del tag <data_nascita>
+                scriviTag(xmlw, Costante.CODICE_FISCALE, persone.get(i).getCodice_fiscale()); // scrittura del tag <codice_fiscale>
                 xmlw.writeEndElement(); // chiusura di </persona>
             }
             xmlw.writeEndElement(); // chiusura di </persone>
 
-            xmlw.writeStartElement("codici"); // scrittura del tag <codici>
-            stampaCodici(xmlw, "invalidi", codici_invalidi);
-            stampaCodici(xmlw, "spaiati", codici_spaiati);
+            xmlw.writeStartElement(Costante.CODICI); // scrittura del tag <codici>
+            stampaCodici(xmlw, Costante.INVALIDI, codici_invalidi);
+            stampaCodici(xmlw, Costante.SPAIATI, codici_spaiati);
             xmlw.writeEndElement(); // chiusura di </codici>
 
             xmlw.writeEndElement(); // chiusura di </output>
@@ -112,10 +111,10 @@ public class Xml {
     private static void stampaCodici(XMLStreamWriter xmlw, String tag, ArrayList<codiceFiscale> codici) throws XMLStreamException {
 
         xmlw.writeStartElement(tag); // scrittura del tag <...>
-        xmlw.writeAttribute("numero", Integer.toString(codici.size())); // attributo numero
+        xmlw.writeAttribute(Costante.NUMERO, Integer.toString(codici.size())); // attributo numero
 
         for (int i = 0; i < codici.size(); i++)   // scrittura tutti CF
-            scriviTag(xmlw, "codice", codici.get(i).toString());
+            scriviTag(xmlw, Costante.CODICE, codici.get(i).toString());
 
         xmlw.writeEndElement(); // chiusura di </...>
     }
@@ -142,7 +141,7 @@ public class Xml {
             xmlr = xmlif.createXMLStreamReader(nome_file, new FileInputStream(nome_file));
 
             while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
-                if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) { //interessa solo il nome dei comuni
+                if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) { // interessa solo il nome dei comuni
                     if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
                         if (trovato) {
                             codice = xmlr.getText();
@@ -160,7 +159,7 @@ public class Xml {
         return codice;
     }
 
-    //legge xml e riempie un ArrayList di codici fiscali se questi risultano corretti. Restituisce il numero totale di codici controllati
+    //legge xml e riempie un ArrayList di codici fiscali se questi risultano corretti
     public static void leggiCodiceFiscale(String nome_file, ArrayList<codiceFiscale> codici_corretti, ArrayList<codiceFiscale> codici_sbagliati) {
 
         XMLInputFactory xmlif;
@@ -173,7 +172,6 @@ public class Xml {
             xmlr = xmlif.createXMLStreamReader(nome_file, new FileInputStream(nome_file));
 
             while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
-                // switch sul tipo di evento
                 if (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) {
                     if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
                         cod_fis = xmlr.getText();
@@ -197,13 +195,13 @@ public class Xml {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new InputSource(new InputStreamReader(new FileInputStream(file))));
 
-        Transformer xformer = TransformerFactory.newInstance().newTransformer();
-        xformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        xformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
-        xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.METHOD, Costante.METODO_FORMATTAZIONE); //tipo di file generato
+        transformer.setOutputProperty(OutputKeys.INDENT, Costante.INDENT_FORMATTAZIONE); //indentazione
+        transformer.setOutputProperty(Costante.HTTPS_FORMATTAZIONE, Costante.LIVELLO_INDENTAZIONE); //formattazione
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, Costante.DICHIARAZIONE_FORMATTAZIONE);
         Source source = new DOMSource(document);
         Result result = new StreamResult(new File(file));
-        xformer.transform(source, result);
+        transformer.transform(source, result);
     }
 }

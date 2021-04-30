@@ -23,7 +23,7 @@ public class Persona {
     // metodo per generare il codice fiscale
     public void generaCodiceFiscale() {
 
-        StringBuffer codice_fiscale_temp = new StringBuffer();
+        StringBuilder codice_fiscale_temp = new StringBuilder();
 
         codice_fiscale_temp.append(codiceCognome());
         codice_fiscale_temp.append(codiceNome());
@@ -35,22 +35,22 @@ public class Persona {
         this.codice_fiscale = new codiceFiscale(codice_fiscale_temp.toString());
     }
 
-    public String unioneConsonantiVocali(String da_unire){
+    public String unioneConsonantiVocali(String da_unire) {
         String caratteri;
         String vocali = "";
         String consonanti = "";
         boolean is_vocale;
 
-        for(int i = 0; i < da_unire.length(); i++){
+        for (int i = 0; i < da_unire.length(); i++) {
             is_vocale = false;
-            for(int j = 0; j < Costante.VOCALI.length; j++){
-                if(da_unire.charAt(i) == Costante.VOCALI[j]){
+            for (int j = 0; j < Costante.VOCALI.length; j++) {
+                if (da_unire.charAt(i) == Costante.VOCALI[j]) {
                     vocali += da_unire.charAt(i);
                     is_vocale = true;
                     break;
                 }
             }
-            if(!is_vocale) consonanti += da_unire.charAt(i);
+            if (!is_vocale) consonanti += da_unire.charAt(i);
         }
 
         caratteri = consonanti + vocali;
@@ -58,9 +58,9 @@ public class Persona {
         return caratteri;
     }
 
-    public boolean controlloConsonante(char lettera){
-        for(int i = 0; i < Costante.VOCALI.length; i++){
-            if(lettera == Costante.VOCALI[i]) return false;
+    public boolean controlloConsonante(char lettera) {
+        for (int i = 0; i < Costante.VOCALI.length; i++) {
+            if (lettera == Costante.VOCALI[i]) return false;
         }
         return true;
     }
@@ -134,7 +134,7 @@ public class Persona {
             if (giorno >= 10) {
                 codice_fiscale_temp += giorno;
             } else {
-                codice_fiscale_temp += "0" + giorno;
+                codice_fiscale_temp += Costante.C0 + giorno;
             }
         }
 
@@ -220,17 +220,5 @@ public class Persona {
 
     public String getCodice_fiscale() {
         return codice_fiscale.toString();
-    }
-
-    @Override
-    public String toString() {
-        return "Persona{" +
-                "nome='" + nome + '\'' +
-                ", cognome='" + cognome + '\'' +
-                ", sesso='" + sesso + '\'' +
-                ", comune_nascita='" + comune_nascita + '\'' +
-                ", data_nascita='" + data_nascita + '\'' +
-                ", codice_fiscale='" + codice_fiscale.getCod_fis() + '\'' +
-                '}';
     }
 }
