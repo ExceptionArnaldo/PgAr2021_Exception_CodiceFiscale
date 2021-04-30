@@ -147,6 +147,7 @@ public class Persona {
 
     //metodo che prende in input un array di persone(considerando solo i loro codici fiscali) e uno di codici. Scrive ASSENTE se non trova corrispondenza
     public static void controlloAssenti(ArrayList<Persona> persone, ArrayList<codiceFiscale> codici) {
+
         int j;
 
         for (int i = 0; i < persone.size(); i++) { //per ogni persona si controllano tutti i CF
@@ -159,6 +160,7 @@ public class Persona {
         }
     }
 
+    //metodo che trova i CF spaiati
     public static void confrontoCodice(ArrayList<codiceFiscale> codici_validi, ArrayList<Persona> persone, ArrayList<codiceFiscale> codici_spaiati) {
 
         int j;
@@ -215,10 +217,6 @@ public class Persona {
 
     public String getCodice_fiscale() {
         return codice_fiscale.toString();
-    }
-
-    public void setCodice_fiscale(codiceFiscale codice_fiscale) {
-        this.codice_fiscale = codice_fiscale;
     }
 
     @Override

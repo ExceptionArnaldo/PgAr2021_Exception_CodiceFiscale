@@ -74,19 +74,27 @@ public class Xml {
             xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(nome_file), "utf-8");
             xmlw.writeStartDocument("utf-8", "1.0");
             xmlw.writeStartElement("output"); // scrittura del tag radice output
+
             xmlw.writeStartElement("persone");
             xmlw.writeAttribute("numero", Integer.toString(persone.size()));
 
             for (int i = 0; i < persone.size(); i++) {
-                stampaPersone(xmlw, persone, i);
+                //stampaPersone(xmlw, persone, i);
+                xmlw.writeStartElement("persona"); // apertura del tag <persona>
+                xmlw.writeAttribute("ID", Integer.toString(i)); // attributo id
+                scriviTag(xmlw, "nome", persone.get(i).getNome()); // scrittura del tag <nome>
+                scriviTag(xmlw, "cognome", persone.get(i).getCognome()); // scrittura del tag <cocgnome>
+                scriviTag(xmlw, "sesso", persone.get(i).getSesso()); // scrittura del tag <sesso>
+                scriviTag(xmlw, "comune_nascita", persone.get(i).getComune_nascita()); // scrittura del tag <comune_nascita>
+                scriviTag(xmlw, "data_nascita", persone.get(i).getData_nascita()); // scrittura del tag <data_nascita>
+                scriviTag(xmlw, "codice_fiscale", persone.get(i).getCodice_fiscale()); // scrittura del tag <codice_fiscale>
+                xmlw.writeEndElement(); // chiusura di </persona>
             }
             xmlw.writeEndElement(); // chiusura di </persone>
 
             xmlw.writeStartElement("codici"); // scrittura del tag <codici>
-
             stampaCodici(xmlw, "invalidi", codici_invalidi);
             stampaCodici(xmlw, "spaiati", codici_spaiati);
-
             xmlw.writeEndElement(); // chiusura di </codici>
 
             xmlw.writeEndElement(); // chiusura di </output>
@@ -100,43 +108,23 @@ public class Xml {
         }
     }
 
+    //stampa CF
     private static void stampaCodici(XMLStreamWriter xmlw, String tag, ArrayList<codiceFiscale> codici) throws XMLStreamException {
 
         xmlw.writeStartElement(tag); // scrittura del tag <...>
         xmlw.writeAttribute("numero", Integer.toString(codici.size())); // attributo numero
 
-        for (int i = 0; i < codici.size(); i++) {  // scrittura tutti CF
-            xmlw.writeStartElement("codice");
-            xmlw.writeCharacters(codici.get(i).toString());
-            xmlw.writeEndElement();
-        }
+        for (int i = 0; i < codici.size(); i++)   // scrittura tutti CF
+            scriviTag(xmlw, "codice", codici.get(i).toString());
 
         xmlw.writeEndElement(); // chiusura di </...>
     }
 
-    private static void stampaPersone(XMLStreamWriter xmlw, ArrayList<Persona> persone, int i) throws XMLStreamException {
-
-        xmlw.writeStartElement("persona"); // scrittura del tag <persona>
-        xmlw.writeAttribute("ID", Integer.toString(i)); // attributo id
-        xmlw.writeStartElement("nome"); // scrittura del tag <nome>
-        xmlw.writeCharacters(persone.get(i).getNome()); // nome
-        xmlw.writeEndElement(); // chiusura di </nome>
-        xmlw.writeStartElement("cognome"); // scrittura del tag <cognome>
-        xmlw.writeCharacters(persone.get(i).getCognome()); // cognome
-        xmlw.writeEndElement(); // chiusura di </cognome>
-        xmlw.writeStartElement("sesso"); // scrittura del tag <sesso>
-        xmlw.writeCharacters(persone.get(i).getSesso()); // sesso
-        xmlw.writeEndElement(); // chiusura di </sesso>
-        xmlw.writeStartElement("comune_nascita"); // scrittura del tag <comune_nascita>
-        xmlw.writeCharacters(persone.get(i).getComune_nascita()); //comune_nascita
-        xmlw.writeEndElement(); // chiusura di </comune_nascita>
-        xmlw.writeStartElement("data_nascita"); // scrittura del tag <data_nascita>
-        xmlw.writeCharacters(persone.get(i).getData_nascita()); // data_nascita
-        xmlw.writeEndElement(); // chiusura di </data_nascita>
-        xmlw.writeStartElement("codice_fiscale"); // scrittura del tag <codice_fiscale>
-        xmlw.writeCharacters(persone.get(i).getCodice_fiscale()); // codice_fiscale
-        xmlw.writeEndElement(); // chiusura di </codice_fiscale>
-        xmlw.writeEndElement(); // chiusura di </persona>
+    //scrive un tag completo
+    private static void scriviTag(XMLStreamWriter xmlw, String tag, String valore) throws XMLStreamException {
+        xmlw.writeStartElement(tag);
+        xmlw.writeCharacters(valore);
+        xmlw.writeEndElement();
     }
 
     //prende il comune di nascita della persona e restituisce il relativo codice se trovato nel file xml
