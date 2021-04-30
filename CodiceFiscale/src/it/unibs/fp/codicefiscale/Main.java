@@ -4,14 +4,6 @@ import java.util.ArrayList;
 
 public class Main {
 
-    private final static String PERSONE_FILE = "inputPersone.xml";
-    private final static String CF_FILE = "codiciFiscali.xml";
-    private final static String SCRITTURA_FILE = "codiciPersone.xml";
-    private final static String MSG_LETTURA = "Lettura del file %s ...";
-    private final static String MSG_GEN_CODICI = "Generazione dei Codici Fiscali ...";
-    private final static String MSG_VERIFICA_CF = "Verifica validita' codici fiscali del file %s ...";
-    private final static String MSG_SCRITTURA = "Scrittura del file %s ...";
-
     public static void main(String[] args) throws Exception {
 
         ArrayList<Persona> persone = new ArrayList<>();
@@ -19,22 +11,22 @@ public class Main {
         ArrayList<codiceFiscale> codici_invalidi = new ArrayList<>();
         ArrayList<codiceFiscale> codici_spaiati = new ArrayList<>();
 
-        System.out.printf((MSG_LETTURA) + "%n", PERSONE_FILE);
-        Xml.leggiPersone(PERSONE_FILE, persone); //1. leggere il file xml di persone e salvare i dati delle persone in un ArrayList
+        System.out.printf((Costante.MSG_LETTURA) + "%n", Costante.PERSONE_FILE);
+        Xml.leggiPersone(Costante.PERSONE_FILE, persone); //1. leggere il file xml di persone e salvare i dati delle persone in un ArrayList
 
-        System.out.println(MSG_GEN_CODICI);
+        System.out.println(Costante.MSG_GEN_CODICI);
         for (int i = 0; i < persone.size(); i++) { //2. generare i CF delle persone
             persone.get(i).generaCodiceFiscale();
         }
 
-        System.out.printf((MSG_VERIFICA_CF) + "%n", CF_FILE);
-        Xml.leggiCodiceFiscale(CF_FILE, codici_validi, codici_invalidi); //3.1 leggere il file xml di CF e salvare in un array di CF quelli corretti e in un altro quelli sbagliati
+        System.out.printf((Costante.MSG_VERIFICA_CF) + "%n", Costante.CF_FILE);
+        Xml.leggiCodiceFiscale(Costante.CF_FILE, codici_validi, codici_invalidi); //3.1 leggere il file xml di CF e salvare in un array di CF quelli corretti e in un altro quelli sbagliati
         Persona.controlloAssenti(persone, codici_validi); //3.2 verifica della presenza dei CF delle persone con quelli dell' ArrayList di CF
 
         Persona.confrontoCodice(codici_validi, persone, codici_spaiati); //Salvataggio dei CF spaiati
 
-        System.out.printf((MSG_SCRITTURA) + "%n", SCRITTURA_FILE);
-        Xml.scriviPersone(SCRITTURA_FILE, persone, codici_invalidi, codici_spaiati); //4. scrittura del file xml
-        Xml.formatXMLFile(SCRITTURA_FILE); //formattazione file xml
+        System.out.printf((Costante.MSG_SCRITTURA) + "%n", Costante.SCRITTURA_FILE);
+        Xml.scriviPersone(Costante.SCRITTURA_FILE, persone, codici_invalidi, codici_spaiati); //4. scrittura del file xml
+        Xml.formatXMLFile(Costante.SCRITTURA_FILE); //formattazione file xml
     }
 }

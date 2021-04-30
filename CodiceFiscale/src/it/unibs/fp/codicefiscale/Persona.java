@@ -4,14 +4,6 @@ import java.util.ArrayList;
 
 public class Persona {
 
-    private final static char X = 'X';
-
-    private final static char[] CODICE_MESE = {'A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'};
-
-    private final static String COMUNEFILE = "comuni.xml";
-
-    private final static String FEMMINA = "F";
-
     private String nome;
     private String cognome;
     private String sesso;
@@ -43,31 +35,51 @@ public class Persona {
         this.codice_fiscale = new codiceFiscale(codice_fiscale_temp.toString());
     }
 
+    public String unioneConsonantiVocali(String da_unire){
+        String caratteri;
+        String vocali = "";
+        String consonanti = "";
+        boolean is_vocale;
+
+        for(int i = 0; i < da_unire.length(); i++){
+            is_vocale = false;
+            for(int j = 0; j < Costante.VOCALI.length; j++){
+                if(da_unire.charAt(i) == Costante.VOCALI[j]){
+                    vocali += da_unire.charAt(i);
+                    is_vocale = true;
+                    break;
+                }
+            }
+            if(!is_vocale) consonanti += da_unire.charAt(i);
+        }
+
+        caratteri = consonanti + vocali;
+
+        return caratteri;
+    }
+
+    public boolean controlloConsonante(char lettera){
+        for(int i = 0; i < Costante.VOCALI.length; i++){
+            if(lettera == Costante.VOCALI[i]) return false;
+        }
+        return true;
+    }
+
     //restituisce il codice del cognome
     public String codiceCognome() {
         String codice_fiscale_temp;
-        String vocali = "";
-        String consonanti = "";
         String caratteri;
 
         String cognome_temp = cognome.toUpperCase();
 
-        for (int i = 0; i < cognome_temp.length(); i++) {   // divide le consonanti e vocali
-            if (cognome_temp.charAt(i) == 'A' || cognome_temp.charAt(i) == 'E' || cognome_temp.charAt(i) == 'I' || cognome_temp.charAt(i) == 'O' || cognome_temp.charAt(i) == 'U') {
-                vocali += cognome_temp.charAt(i);
-            } else {
-                consonanti += cognome_temp.charAt(i);
-            }
-        }
-
-        caratteri = consonanti + vocali; // mette insieme le vocali ai consonanti
+        caratteri = unioneConsonantiVocali(cognome_temp); // mette insieme le vocali ai consonanti
 
         if (caratteri.length() >= 3) {  // se è più lungo di 3 allora estrae i primi 3 lettere
             codice_fiscale_temp = caratteri.substring(0, 3);
         } else {    // se la lunghezza è meno di tre aggiunge i X
             codice_fiscale_temp = caratteri;
             while (codice_fiscale_temp.length() != 3) {
-                codice_fiscale_temp += X;
+                codice_fiscale_temp += Costante.X;
             }
         }
 
@@ -77,30 +89,21 @@ public class Persona {
     //restituisce il codice del nome
     public String codiceNome() {
         String codice_fiscale_temp;
-        String vocali = "";
-        String consonanti = "";
         String caratteri;
 
         String nome_temp = nome.toUpperCase();
 
-        for (int i = 0; i < nome_temp.length(); i++) {  // divide le consonanti e vocali
-            if (nome_temp.charAt(i) == 'A' || nome_temp.charAt(i) == 'E' || nome_temp.charAt(i) == 'I' || nome_temp.charAt(i) == 'O' || nome_temp.charAt(i) == 'U') {
-                vocali += nome_temp.charAt(i);
-            } else {
-                consonanti += nome_temp.charAt(i);
-            }
-        }
+        caratteri = unioneConsonantiVocali(nome_temp);
 
-        if (consonanti.length() >= 4) { //se i consonanti sono più di 4 allora estrae il primo, terzo e quarto
-            codice_fiscale_temp = consonanti.charAt(0) + consonanti.substring(2, 4);
+        if (caratteri.length() >= 4 && controlloConsonante(caratteri.charAt(3))) { //se i consonanti sono più di 4 allora estrae il primo, terzo e quarto
+            codice_fiscale_temp = caratteri.charAt(0) + caratteri.substring(2, 4);
         } else {
-            caratteri = consonanti + vocali;
             if (caratteri.length() >= 3) {
                 codice_fiscale_temp = caratteri.substring(0, 3);
             } else { // aggiunge i X
                 codice_fiscale_temp = caratteri;
                 while (codice_fiscale_temp.length() != 3) {
-                    codice_fiscale_temp += X;
+                    codice_fiscale_temp += Costante.X;
                 }
             }
         }
@@ -121,11 +124,11 @@ public class Persona {
         codice_fiscale_temp += data_nascita.charAt(3);
 
         //estrazione del mese
-        codice_fiscale_temp += CODICE_MESE[mese - 1];
+        codice_fiscale_temp += Costante.CODICE_MESE[mese - 1];
 
         //estrazione del giorno
-        if (sesso.equals(FEMMINA)) {
-            giorno = giorno + 40;
+        if (sesso.equals(Costante.FEMMINA)) {
+            giorno = giorno + Costante.DIFF_M_F;
             codice_fiscale_temp += giorno;
         } else {
             if (giorno >= 10) {
@@ -141,7 +144,7 @@ public class Persona {
     //restituisce il codice del comune di nascita
     public String codiceComune() {
 
-        return Xml.leggiComune(COMUNEFILE, comune_nascita.toUpperCase());
+        return Xml.leggiComune(Costante.COMUNEFILE, comune_nascita.toUpperCase());
 
     }
 
@@ -156,7 +159,7 @@ public class Persona {
                     break;
             }
             if (j == codici.size()) //se sono stati passasti tutti i CF per una persona allora il suo CF non e' presente
-                persone.get(i).codice_fiscale.setCod_fis("ASSENTE"); //il CF della persona diventa ASSENTE
+                persone.get(i).codice_fiscale.setCod_fis(Costante.ASSENTE); //il CF della persona diventa ASSENTE
         }
     }
 

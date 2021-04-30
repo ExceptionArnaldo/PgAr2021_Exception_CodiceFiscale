@@ -59,7 +59,7 @@ public class Xml {
                 xmlr.next();
             }
         } catch (Exception e) {
-            System.out.println("Errore nell'inizializzazione del reader:");
+            System.out.println(Costante.ERRORE_LETTURA);
             System.out.println(e.getMessage());
         }
     }
@@ -103,7 +103,7 @@ public class Xml {
             xmlw.flush(); // svuota il buffer e procede alla scrittura
             xmlw.close(); // chiusura del documento e delle risorse impiegate
         } catch (Exception e) { // se c’è un errore viene eseguita questa parte
-            System.out.println("Errore nella scrittura");
+            System.out.println(Costante.ERRORE_SCRITTURA);
             System.out.println(e.getMessage());
         }
     }
@@ -154,7 +154,7 @@ public class Xml {
                 xmlr.next();
             }
         } catch (Exception e) {
-            System.out.println("Errore nell'inizializzazione del reader:");
+            System.out.println(Costante.ERRORE_LETTURA);
             System.out.println(e.getMessage());
         }
         return codice;
@@ -186,7 +186,7 @@ public class Xml {
                 xmlr.next();
             }
         } catch (Exception e) {
-            System.out.println("Errore nell'inizializzazione del reader:");
+            System.out.println(Costante.ERRORE_LETTURA);
             System.out.println(e.getMessage());
         }
     }
